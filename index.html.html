@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bainbridge AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+    .gradient-text {
+      background: linear-gradient(180deg, #013e6a 0%, #43d1ff 25%, #013e6a 50%, #419ad6 75%, #01186a 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .gradient-bg { background: linear-gradient(135deg, #013e6a 0%, #01186a 100%); }
+    .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); }
+    .float-animation { animation: float 6s ease-in-out infinite; }
+    .float-animation-delayed { animation: float 6s ease-in-out infinite; animation-delay: -3s; }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+    .hover-lift { transition: all 0.3s ease; }
+    .hover-lift:hover { transform: translateY(-8px); box-shadow: 0 25px 50px -12px rgba(1, 62, 106, 0.25); }
+    html { scroll-behavior: smooth; }
+  </style>
+</head>
+<body class="bg-white">
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 right-0 z-50 glass shadow-lg shadow-slate-200/50">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex items-center justify-between h-20">
+        <!-- YOUR ACTUAL LOGO -->
+        <a href="#" class="flex items-center">
+          <img src="data:image/webp;base64,UklGRmQ5AABXRUJQVlA4WAoAAAAwAAAArwQAjwEASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZBTFBIhxwAAAHwx//XK6XZ9q1hKCJiw957V2KJUULsvbeAoqggs1AiRjEaTdFo7N1TE9QznjExMc3LdFtMNPYWPY0aCxaMCVYERREcmPXH7GPtPXsfe14Zruu+d0RMAFj+t/xv+d/yv+V/y/+W/y3/W/63/G/53/K/5X/L/5b/Lf9b/rf8b/nf8r/lf8v/lv8t/1v+t/xv+d/yv+V/y/+W/y3/W/7XdYnGPcZMmPrWglVr5k1zRPVs17jM/11Spd/sb848IA3/2r54VIvA/2uk+bTtd8izznNrewb5nuqnGnvJDMfQTs0C5PBmKreREfqmiruxpqSy37LJYF6quAZrSqqh18yZNKr3C5U8Vj/V2KtmJY/q076BXSep4lW8VAP+a8ncN1KSXo6sFyKh0KiNf5M+c7bFVdBdqnzf+WepI8nwyd55vUoZ7iVif22E2SSeytpL/GUyuE7i1qy9JMMrH2FTmyc6khQf71s8uIoOSJzDI0M/OrvljQF1bNKwdfroCem58MirJfVF8r3ge3Av3N3fz1iHePSCpOg1r8b99rvVJKeY/m4t81HO+npSc5sEKr1znfT/aGWdogdEdO21sgbqTyp/kZUr1tshcn7ZQX5EhdsH+ZuS+72NXfyMVWPtUzJm4bYORRCIcibYjOJ3Vg11lxQ5e3k9RPRLLfkRUUasWRFRxopw49T7zzMy8KmuRRCIfq5lkFhSfdImKXr8ghdEOeNtJkC0q7ZpEdGuLsYIWfiMDP5ppSIIlJNgiMDr6uityJqGWRsZGRnZRDPKfkEa4yIjIyObyIloTxUzoCdT7B7LjXSvKiOi4/0NMOwmae28e/nYri83f7jhvTUbNm/94efDaU+0ouxX/EwpPdI9wFdBNNUIk0jDW4mj7Eb5ChGxp3Z0r4Es5iEi9pQVXa5sBkQ/BnkqD91byIloe12dVd5FmuZf2LXxnfGo4bQVn+/P0ILoRBszuoXuwb4Lmqi/Ene0oI8wXFJ0o5I3RH9UMAXaHmRmlDenmJ563SX1rvTtyyegR2dsPp2njgqm+Y7OTdR/8muzFq3ZeuKeKhfqbhaJs3YyHiSNCZQUnS8hsyUT9f/qzHeXb9yTlq+GzoRpd22VAdd8sOXr3aezNKCdxYzwbJVeV69Zt/Hjz3488PuNXI2ITtXVTcBiF6nO+HoG6nHC8iNONURfheomfZUsl/xTdQaNO/3rOzwqbKuzco8Ymyc+FNGX+LxU7nPosL/E5qFhE1efdPLoB+3OoHGnvbfviRra6WeAPDTgjNVbT+VoQdmDdVLmAKktODQf9Zuy9Z4a+m9FvZxDufoUEHH5TRb9btfXChLfGY+fMXImxQfLZHk6h763eSGIOHmHk0VDJYSISf++oIImmoPinM/TXKqI5umi2nlSmffTdNR34r/SVNDlmkUAMPHzpxxa6aenGnmMDYgT7ovoe3xRJvOm3uHQRu8E8e0LrPu1pYSI/7rLe1LLPBDx9a0ZqmilDhr/SfzCvVNQU0fMwG4R4U0a1q1VvU7D5q3bdegzUoSI/37Aoz+rFQFAnPuI8zTapqMPSXwTEfFDRl5KQqhMcGY2hxZ4KZi4j0M7K0sKk35wceh4CTNBxLVpauh9m6fC7xP/4hxUnzAosnEFf9AwsGKj9gMSFHDi9/ksOluqKAC+lcmg77vadNOkgPEvt8RbItqDnaWCc3M5rmQvBXEHJz+xoqQQPyjg0NIS5oK49KYKWumhmhnEztuEqodH1g4EjwbW6TAS3WdcY9Feu68ozt+AxUqVr9a4w9AExIWFjFvY2aaXr0mchorrGM4ZjrJSwaVOBjmjZdbSX/8BIWUr1W7TKxYRzzBow9jy2sVXM2D1Oo3D23aOciAivufkXB0RaogO1fRavVbdBo2fa9+1/3CHABO3POHRGI+EXSB2+luoMjaiPOgyrG0sIiYdYtEC3SRUk6bfP1Vg3ICGA3AHg+ZgC520I+YSJbwsokPYUy640sWg3C4SawHGDYsYPe0J4xSODNAsDowbUKX1cMRPOTR3RHEjtAD9+5dr0G6IA91nXOU9i/BA8BFi752A/L41bKBbe70BiPhZAaewr17iwdcoEQAo1ech4weMC9HHXsZZVE4YzCicjRXl0vMtDmWHeyMAfg03M54lY4SE3Kt0SrjI2YXdzEExsGbkaESc8BOLMmtot564rq3IdnQrDzoP6+TA5XkM+rtGEQCAfzNuInbXRS8Su94VRMKvIjqF/SUDazl0q6ZXAlDZKaL3MaGcnABKj8tn3ESsaR4AYKveeRziFheHfimt1WDiFnyA7D5lwIDlB+IqJ4M+rloUoCXDmYhYUwe204wTqBwfApEMWojVJQNfcehKWe8EvmV8jTjIJimA7xg0FWMCzAQAircdi5tcHNfcstpUzeS41iN3eC0waP2RGzmPHGFFAOCRiN5E7KeD4SQueEvwAgD8yLiAQ2Tjt5dDp4t5JymMo4hYWVp9OMsR25kMQEDbcZs5lBEXqske4n6KTEd7OxjWv8MBBn04qngRgD8YCxEdxT3mn8bYj8pjgwDgOZeIVmBdyUDQfzm01+aVRDHOIWKktPzvMrYgxgeaDUCpPns5tGlYgAbDiPs9MmOrg6FbZzKuYV+b728XYyUiNvXYeBI/my5oBe6fM9Ix2iYZKH2VQ196Je0ZVxAx1iYr2M3YhYjNzAegxSXOncTu6gKvcs4hc0AwGBwFDw+sQXzO9/cDYzUiDvBU8QzGblSODVBoUCCiVGwsG6h+i0NrvJE2jGuIiFWltZHxKyIOMiN4Pp9B6zFc1WvEfDiV0d0Ohr9ARLd3LUpERBwX6vM7w5iPiI4gD80k8dMUQTNQ/oBxK3GkXTbQLJtDb3khgxm/u7WX1hzGMUR0BJkRvMH5E+NDVZTO4qxCcYQNjD/++GezUNzV55fFmImIWNEzZbIY36FyjF1QPU9EmzBcOvBSLqcgwft4lXHYrY+0JjMOICLWMSX/Cwyag31UpBDzBIojQI6l4xhY3sfXgMQFSW4NPbOYxDnJgoYgXsnITBodKB0Y7GRQfn+vYwvjB7cYaS1mfO/WxpRgFGc7Yj2W7Qrj2QxRF5BlPU4nH988xlV0D/dI1VzGF6gcZWOUzxHRF9hGPjDexaCc9l5GaC5jlVu8tD5jbHbrZk72K4y7iMNtnD7E3I7CPn7SgG6M+CCfnj2dsUPheY+sJ3FmkqA2cN9l5CTHBcsHZnPofmPvYhyJC5Ld0E9Whxlr3QabE7zCoPmI9Tk/MvInC0YWA3mWiFeK79EgwKc3nZjLFNp6ooGT8REqDwZ2qUwRfY8REoJUDt2s7E2U/ptxCRXtkirvZMxxizKpck7G/yC+zCjlZOxHZUcVkGkkIsZ2qGkHLX1pTfIYGajYwhNfkvj2eEE1Hkxn5KUkhEoItnHoj1AvYjMx1yvEgaQmkTgT3UeZFGxnnEHEmqIoYs4RPA9SLRPdrpINNPahVfmDmJ8oNfBAaxdjPSr3A5XBGSLag51k5LefQ0cDvIYUYmaNVxghq98YexSizWo0IwcRu4s2Ma6i8gi7XDzqO6t7nZj3XlGq6oHdJL6BwopqIInhnOEoIyEI+p1D221ewhzibkbFAZIaTcylCv3NqhqDZiHGByjZ7jC2CepAUZOYu8RdhYoJAdp1IeZqQQ9QHXBNRIewh4yg7DUObfIKqn5F3DRUbiunqlmM7ESFLmYFNxgfIGJ9pebEnKM0AIqYhO8j9iFUHgTaH2dcRmVHWXUQyyichRVlBDXucGiR+RWb+oi4+bMF1aUU+BMxP0bFdqb1KeMbROylFMN4gMrVipSUwqPEv5wkaK3dUGIuFnQGDf3Oi+gU9pMSNH/IcU02ubap2cQuXIvKcQEyCtlFzBuJSk1NayrjICLG2RQWME4oRUHRkODKjSPiU08+I5V/T0blhBDN7BcYv6NyQkktYDCDFmB1KUGnpwxyjjAne5naLfu8/d0tUrsZhS+ChMKOEHcpKoea1mDGRUTEcgrfMr5WaloUQZ7nJ6OwK2g+jsSuuYJI0PY44wIOkRMMczLoaTcJSDN/PYpLy8cWd4+4B1F5CJjWc4z7bk0VrjLeUxgXYEpyDPF9FO5KRGFCWc2K3WQcQ+X44hp1Y9AKrCsnSHIxKLult3BnLoq7gHQiDxP7/ARBK/Mqych166qQx3hLoQ9oOONruS7z2Z2di8znQfOpJC54U9AWtP6FcR2jbXKCORy6XcsryPkqCcVjgiVTdcZF4qcno7CMeYFTVOgW7RZIzGSFZlp8TXI94ZvL+3klcqPsmpW6z/gVlccGadaOQanYSFKwgUPXwszvyudTkdsApGEr2Srxg/8WkspbU1HYGUzsoYiSEDHBBgDlGC5ULFk05cmmicgdFQqazyNx/nRBS9D+W8atxJF2ScG3HDoTbHanZyO7LWiRm56enn79hL5PX80sJC2PJaMwPsTMMhiTERFDAKAOI1dhFBRNIco/vVY0thxoXvExYxcqx/p7oHmhiDZhC1nZD3LoV5vJEd3ePlXUGTSRZ/5mZLYCM0tjTHerDADhjCyFPkVWiOj6aoXhZUH7tSTOnSJoCp78lJGZNDpQUhB8lkNbTY8of1eKQlub1M7OQeYwu6mlM6a6NQCAxoxHCu29uImIiDV8GkS/T0HsHQTa13nG+BaVR/h5pJ5TRF9gG1lBWDqH3jc/otz1iGPrAls6J5cgNyYETO0eI9mtOQBUZTgVGpnApR7udt/KX5v1v+XrXftP3ihQRQ9m1QJPfkLiR8mCBuDZdYyc5LhgWUHtuxyaZaTtm3X/yRc//HzkXLYqor1dgkFejw8uQvaYMmBuuYxEt5YAUIJBSW41TCAd3f1VZB+VYdI/WWfQqEnzN//m5JFzqCfCXYzPUfllm4eqPhXRdxghLXjuEacQDTQPjTp97fY7KuhgiKxu/7giCfljK4G52Un8DN3bAoCtkDHNrbIms3bs2LHjwDmjP/XMOZSmr8F98ifXWPSsjwd+JHFmkqAWeHoZ42nKuFBpQZenDMofaD7ui/blsmhPkHQenNv3xZo3UfWQUmByNRg5ChEAAPcZy93CNFFshka/47NDxLV3OfQ0QrOXiLkJlQeBx8s9EtFP2EleEF3AoMcvmhJiyn4Xh76xyebyTNTyRTuYXSfGnwod3A4xvnArKa8cXx4mbStg0NUQrQ4xbiUKqnoOZjOcMxxl5AWTXAzKbGxOiHOvc2i8RoV5OnapoKeb1EXXAi3NJp5xSiHSbR3jsFsZeRX69BBX5TFog0b9ibkOlfuCDkPvi+gg9pAYzOfQzaomha+c5jyppc0Z1HHia0t/zOAQHUrkRdW3gRewmLFboZ3bK4wMt4rSmkG+n3GN9d8k/PnILv3HuuG8hwzXy5r4nWWko7CCHmAqo3AWVpAY/IdDF0saqFtj/Tdr1a5jj2gHImLirww6HmI0xff+4tB+RkK/ejbQ2GwOMLYotHHrwKA3EbG6tFL14Ogsw7B/suLAsKXqRY5GXOoS0Yn2Wowm5ipBD9Blsb9E9Bv2kxn8wKFjgcZpAUYNrBI+ABHPM2h6KRnghB0uBv2sMLZrvSDQ3mSC8hgrFcLdQp8xtiJiPe1q9Tb4l3qIB1+jPADAr1aPhO2Mwplt1AVeZ1xEZUcZfQAyaD5Wk5n9MId22kzHvWTrEdNyGAdiQmWAuKGAQSs7tawT5gceNZkXSeyapNDUDX5iXEXENtoZ/rCPDwDKDswQ0Q5srmoSMRcJOoFO/a8w/sAhMoPi5zn0sSkB+LVYx3C+OryYFPA9FyO7CnjcZJYy/kTFmgqTGK7ZiD1kVcvl+wOYxbiBCWVVlLjLuPq28putGur1bQatwDoyg/I3OLTUnABKZIpoLXbVKk7HCYiIWxl0yO5V2P5k/KJUVqEOgw4hjpDVm1QUoPRTkWsKDvHjzSJJXsMom8ygzj2OK8WkYBFjD2JtbeJAz0FhLfrhOQYtDPImXiLmBqUABTjLcE5DDJaT7WKRANgmolTEFqxyj2RB72MjqUGrHAY5R5lUC8ZfiLH+hnMPcxQyrg0O9CK2MJyTFEaD8isM+hmxkZyiqWjAAsZWxJF+nJUkzYzEkXapQfc8Bj3taU7FXKJ8RGwiBYDPGbR8YIDXUK+AcQoVBwhKZDMK5mAvKfldKCKQyNiFiPUZNfLkQR9iC7nBiAIGPWxtSnBLRBMRo21yqPSYcQE7eg0fEHO90gsCWM6gNBwXIKM4KiLQh3EYEQcxPiSJZiaNDpAbTHEx6E4dUzrOmImI1eUAcxk0B6t7CS2cjLyJSjVFtQsY9BE2kVDlB0UFohinEdERJGhSKBP6HNtIDhZz6Hp5M/qDMRcR20miQh5jP44M9Ar8jhHzJ1QuJoJ1nPw5w23y+YGKCrzGOIKIWEvwDUn1UXJcsOTgIw79XtyEHjPeQMShkoBNjPzJ2M4reJWYzulKUcAsl8WgO6/Wlk4SFRlYw9jrFqHUjiT7LUbIzradQ/vtphNGzBREdARJoiWDtmJckBfQPo+zH5Wf58BkDp0ZZpNMD2fRgROMr9x6Ke1juM4Z+Anjacq4UMmB/1EOfW06fRl56F5eErCfkZmIbcyv2i1iOt8UlGUFXODQkaZyafqQigw0I+Zqt0EKvYh5BA38KYN2YyfZQcgFDq0zm62MawrVZTGUQak4JsDswk4T93tUfhn4bfI5tK+YTBr/RUUHlnOmuY1ws51mOGcYafwthvN1RxnZQYWbHHrHXMrlM/YpNJCFPZ1xCbGpyVU8S9zbSYJWKmAKi370l0fLe6R87LTvr1oW4wa6j3EbTszdaOj3GXQAe0gP6t3nFI43lWXEXKvQTBYwjUFzMcrc6l4i9jJUjg9WA9+x6EhZWXTKJuX7NQ74/Gx7iPmDQgwABKQxnkw2FqYxCmdhBelBmxwG5Q8xkY6FjGcTFRpKo8wTxgHE6mY2JJvYO1EYAarDrrHoSkM5vFZAyoU9yx31+U0hpmumwjAAmEDMrWjwhQw6if3kBz3zGfS4g2mUTifmQVSsLQ1IZTybgr3MK2Q18c8mChJKqIP6d1mUkyiBUttIPDtk5F5f38RCzn9RsRdA8VuMzCTBoN5G3c9wzcdq8oPYAgY9aGYSlf9L3HeVysujsUtE29BRyqyi/iL+7VdR2AG0bPmYRbSjitEG/U3inYFDcbuPbx5xnbOV2gLMJOaHqDzcD4xaN19E53GwCcBUF4P+rm4KDa4T9ygqOvzlAbsYmeMxwpy6/UoqH7yJwtHFNIGuz3j0YFKAkSpvJeaBMv0Qv/LpNdpF7G9QuS6UyWLcTBTUBeOuYtByrGMCsJRDl0rJzz85i7iPpihFgUT6MGgdjg0wn8Dhp0jt/ZkobgAaD8rlEaUNMUzpeY+J+UuZQYj4sQ+v1LJnxL45QSkhCJYQczUqDwYDh2UzrmGUzQRgM4dOBMqu6znir0fldjKxXWJcQWzGCGpuBn6dNzwg1XdeR3E/0HxIpgqiw4P8jFByZhZxd4YNQ0Rc56vz6/HJE+IXzkPl/lD1KeMCCqsYCV5n0PvY0AxsOzm0+0+ZVZl2jlSeRmEVmcBEBi3FaMbSWzVk1zjpq3uk4fkUFMeW0A6G31RDdGViiN4ar3lE7O/qjEb3Fb644hGTPv6b1Bb8G4X1YQOJXfMFvcDQxW4wMhJj7CYAAcc5bMnUHrZoXyGpvTpJMBykUiKbcRGxuqBjIZ0tKSm/is/1Tl5/KJs0dX2fiOKEyuBBe/QxVUQPN/Xy10/pMXtI5dq2DlSc59PJOnr06NHDm3W95YeD5/4qIA0LUlEYa2/gZBxDZUdZY0Esgz7E5mYAoRf1dPbo0aNHv9+s50+27jl55SFpeTkZhc3lAisYtAV7K0U8JKKd/npxpbn/dkCHR07/ce12AXkwcyVym4BHA4f9J08VEd1L7V9SD5XH/viMVD6IHYTCNz3zJC0tLe3yASkG/zMlUedaFDeEL0nsfEPQEQxuO8W4P2F0gBlAxb90JNELE1EYbZdM5SeMZ2sdpd2ic8g9VS/SdO6YiNy24OHiw9+8rgERFRyZ17OSJ6q//P4FUn+wbwKKEz0j0xDfRtYKFPeF1i7GHlSODzEadGXQ59jaFKB+pvkcSkKhozJIBhYyyLU3uVS9lw+SMMVUzr2N7Nbg8ZBh47/I1ULx7k/LJwxoXcmP41exVf+k9/Znk5aF749EZkyZIgCuvZNQHBcKP5E4N0XQFoy/nfEoOS7YFOCFxyZzdwUyXwTplH7AUH2vhmm4Ti1A/nOgw8B+mHLApZHQee/m5TNHj5y+kH7HSdofnI7cEaHwyOeXsQi5zaArMbeh8uhACTQvFNG32N4coG++mRTsegWZMQHygdc1cw5PqG4OufvfQn5cPdClXxfEeX94RJeXFiE7ugTADR/f9Y8mIPdFgOOMrFcEzUGGGxm5U8aVMAcYU2gauftmI3dUGZBQ0EmtJo3CsWXl5zyVmoQqXy4Neg1PQJx/0mWguxsTkd0vGADO+PKe/vou8tsBDCXmR6g8wi6FKk9EtBs7mgRMN4n0jycie2RpkBHUuq/N6mGIGFNcbrf2rX8VVXf0B/2WH46Ibx3IN0jah0nITmhtAwD41SReHjBgwICKPgXntT3rk1Hl8wD2C4yMREE9kOO7jGfTHWVMAlbIL+u3r+aiypiSICdoeV+D/JQodB/sL6us87s/mIYaDq0Eug7ohIiYvOmiS3dPfn4HVY6sDIrfmMRERMQavgBX7r0bf5z49avFSag6vjkAjCPmWlQeApIMvSOiA9jdLGCLrJzZGWlnDu/aMAPVDwwFWUHTK6puJzlQuYdNHgV5OVl3/750/KetG5dMRm1HN7OB3mtEo/uMr6+5dJR/bmMSqu0ZBMqbfC/KKN2+JYHdEplVZQEA4cisAMLKKBYoVkax0eAlVC9QbI2yHdvUBupRbDgo/r2TVbB3KoodFcC9NYoFiq1RqjHNA8CAfuFjUXHy+gOZenClb1+ehKqjaoPKnihUUOyHEvZljGkI/KCxjD4gUXsMo69p2HqYSs8Q0FIiUGH6zgwl119fv47cVmAWgxv4gUGDO4xzc5+Z+sPvWdoV3jmze91k1DC2qQ3UdvLxxbQsBipfQLEjTCZQn4FVzQLs/U0joUc10FYmEIE4bdn6j9YtfRX5XcEcoluXAiOHtItTUkxZmPr57hNpN28/yMl35T+6ezPt3MkD296fNQG1jW8TAOojfHkJPWvYQG1IPKMzyHUIY7BpQOBQc4hpFQJaS8VvIGo6wG4Ccb3Dw8DwQa1GMfQ9/Llg0LK1r84R1bFRCGjYAcXjSkimKgNrmwYUHyG9sX3aVLWB9lKBoMFavOQHcosf0jm8oh/I0Va9S7zuErpVBY2b+9riYob2696hdfUg0LZUAqMdyLYXI8pmGlAqVlIJo6MH9e4S0aiMDTwrFwjspWpcY2DKwxE/dlRM1OCeHdo0qVnKBnINaNg7XkeOQeHBoHkDH4zPvsloXu+y4H3bq74w1KGH4ZG1g+B/h/s3G5igFBNRDrz1YtXCu0Q5tBvZ98VGofC/ygMq1mpYt1oIePv+YTUaP9+p75CoEbFxCeNGjxg2sE/3Tm3qlQsAy/+W/y3/W/63/G/53/K/5X/L/5b/Lf9b/rf8b/nf8r/lf8v/lv8t/1v+t/xv+d/yv+V/y/+W/y3/W/63/G/53/K/5X/L/5b/Lf9b/rf8b/nf8r/lf8v/lv8t/1v+t/xv+d/yv+V/y/+W/y3/W/63/G/53/K/5f9/HgEAVlA4IOYaAAAQzgCdASqwBJABPlEokUajv7+hItIoq/AKCWdu/GXcMoJkDSZOO3S3zL/APwA8ghT+23gD9iqD8aD+AfgB+0niQfgB+kvOAfgBZ/+XU/jv4AXrEbP4juSM4+F/s/7kf3z3+a//XP6f+0P8Bz9NZecp5P+kf93+xf439yvmV/Xf9H/Ef7L8C/0L/4P778AH6k/s31of6Z/4/UB/T/8f+xH/s+KL/B/qv/9/gN+3XsAf13/gf/D2pP9j/+PcO9Ab+U/6P/1/+r20f3p+Cr+sf9T94fao//H/S9wD/+eoB/9Osn67f2H8Y/i/5WfqsinJVcn3BtLQy7uxhAllcWq4aYDm4aWVxarhpgObhpZXFquGmA5uGllcWq4aYDm4aWVxarhpgObhpZXFquGmA5uGllcWq4aYDm4aWVxarhpgObhpZXFquGmA5uGllcWq4aYDm4aWVxarhpgObhpZXFquGmA5uGllcWq4aYDm4aWVxarhpgObhpZXFquGmA5uGllcWq4aYDm4aWVxarhpgObhpZXFquGmA5uGllcWq4aYDm4aWVxarhpgObhpZXFquGmA5uGllcWq4aYDm4aWVxarhpgObhpZXFquGmA5uGllcWq4aYDm4aWVxarhpgObhpZXFquGmA5uGllcWq4aYCtG8LuSv5mH0wq8Pcz4ankPe0B7LA89rfT4+XijRqQrTalLDkCIGY0DK4wAI0Ep2qWZ4XZWfHkne5K/omKWGlwp8ZvjwUptPJPEEbZjJDonVODUrsR5poyWMslog7lOfTm/AI2V00TRXttLInUczkCtfbqGfoYXtI5uGllcWq4VWuragnzO/LEtikCXFwjAWMJeocdVeTUNUpjUIQmxaWkI/5/X8hSHPH9wco8CTtJF9a82cYnb+cYke1Fd2v30335xu2A/GrE3dajoLgwt+CIfRjUSwjU53PVFqtOtje6VHxRJpgQB9HWrAW3clf0O8cg1dcIYAc3DSyuLVbsyLBbOPl/cY0B7+KajY6fFE5AgBATwsKha8KVjADih58BLNSQRejWzYrRy+f4y9mN1oJ3Bu5JtbgGlRjkUzamzte6b3ywEcPutQEA2uX/rkG80/MDYU7LRiwHcJuLquvFT66TAhEt4p7jHL8sr0UbnwAHNw0sri1XCq13oOXl+E22sa09uUJVALNhkvDZrtf8bbbX2lidys62FBncBQn1Tm8HOepMW3WqjPs1bX1FbQmgCUXfe9h2XoxYeDZE99U8jDwtzVE/uGp3+pMuzmJdt4J5HamxBbm8rZFHyRpk2a6Y/O+o5fi1gaRzcNLK4tVwqtfS5F/95xu44JqUETcNlm+N6najnjRL+jNQ57RqPIpQvr2VEqLqs380G5WfohXyB/nJY9K/mbpkEuiP/KdlppMhww7KngbFKwrQK2Gq/ecDnoHpjQQ5kNXlIbaEpK+58yp12EliV/dSgQp8D6j1u5OnJIpZXFquGmA4j4dxbLKgWDYGV/JNd/LPXY7oZQby8zvabVa220fxUyOt/9WhoX9cA8inut0Zy2V0pz1qzxw5+p9MNKDkAmIiERumusLp0ZCA9Rrof2eKP4vLcKptBUVeYWSbaAyguhXQXg86iJ+QVObXcAc3DORjVLM8LuNvHD6hGFGwilGhu4MBEyi9n+kK6sLa7npxu9rOi7US1MjQCFGBR8aMJQL7Y63I7gDm4aWVxarhpgObhpZXFquGmA5uGllcWq4aYDm4aWVxarhpgObhpZXFquGmA5uGllcWq4aYDm4aWVxarhpgObhpZXFquGmA5uGllcWq4aYDm4aWVxarhpgObhpZXFquGmA5uGllcWq4aYDm4aWVxarhpgObhpZXFquGmA5uGllcWq4aYDm4aWVxarhpgObhpZXFquGmA5uGllcWq4aYDm4aWVxarhpgObhpZXFquGmA5uGllcWq4aYDm4aWVxarhpgObhpZXFquGmA5uGllcWq4aYDm4aWVxarhpgObhpZXFquGmA5uGllcWq4aYDm4aWVxarhpgObhpZXFquGmA5uGllcWq4aYDm4aWVxarhpgObhpZXFquGmA5uGllcWq4aYDm4aWVxarhpgObhpZXFquGmA5uGllcWq4aYDm4aWVxarhpgObhpZXFquGmA5uGllcWq4aYDm4aWVxarhpgObhpZXFquGmA5uGllcWq4aYDm4aWVxarhpgObhpZXFquGlYAAP7aGIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABVqC4HzyZATtAkhbpjqy+Dm5pbkJ9AsdLE+L/Lkyk71aPqDIL/zUlVtfXx+J22QUVO9zwK9OY+QrCrQrMThDzgFsKMYYo/JutgeQQzij4ujbcDYtV1N4FQMdDamB3xoI/f/Y9SDhy/+HzehZXXytkvZUYj7hE/A+c/uddK40UuMW6w7ZV7RqklBCzZJB2doGGEN7oHPQyqkuHt8fZADsofMCFgLKEZVZoXd/PR9Vr/VSL3bciMw64iLyRHHpe+rOD/KUYLk/JR+819o91tGhstMhWEZtq/2+Lq2NDHI3V05YW7Y+DTm4wx4IDrZ54azWQxDrnG0c3gOKRP7uykV0FLY0/qSuqy5JqZQuCuwdGanV2puD4u07wjfWrjbN63txj88rYWF9cwz46P8ZW2P0n6Yb58ArfpxdFPlxCODfgURp+9/16eTICdoEkLdMdWXwc3NLchPoFjpYnxf5dv515Tp0/x1hdW9TIMsh355ZTbZKUFduVqWaaZMZNIuf2+OGTSomdgl2PlXHfcIvELePZFH/W8oB0HzcX9NAIeDGP88jjI+l+IidICqfkvnUrA5xvA6WK4v3MGPk8mQE5nke6oB/HhavPyOASJLVHZi2nz41m1UIUk7i5aXRyLwnruIPQvWVtZL+ObLpNAQSZf1tHzvusLLJKOjHfVtzgtpHjwGuV0rnMUiOO+7g2GWbjT5oI7zfmfj9J/DVZVrIMWKFWATEFVfBa61yQUidOX1jgB82AHZNBpzGf92HdRDPOqmqDadXHX95WgngfS7BDNO+CGUxof29nzZIWqc3YGSX+cHxznbS+/9q8WQIUK98fidtjZa8ZR0gdzXBGiHUFNN7cxjk3IzV7wmqMCirZOsYcuWUKyTTd4YtNAU6IJ2fuVqDzMsa2CUvsWEbfHJyko5kY4rDRqMEvZ2289L1W8YIrmw/6GEOwXVrA2e6sn2QKsjZ3XdVIWeqa43PHdNVql+qfdiukpp9JPP8DqvyB8HZuL7RSIhFsgxrEu1NT4d+fPSPAQhaa0NFQDBOsXg0PkIcOV4wdmIJmikgtfWdITVP+dLsEM1WP0NYA8A/RF4Q/L9KTFnCoexwdvBi9Vhes5Q1YH+QMJxK/jJA0FDos6cA5CwqQEQE6Pyw4rn4HkOyI+aA3N3Ow/2y26Cc/UFLYYk+5RIb6X3VjK59GRWuhusMtG1i592V19kWRvrmGfFa8YEJ3a//hoDyJKt8BVpRSeY3Iv7Y3Rqy+K1McirNvO91PD+aIS6UN5Rff0M5+czP2TNPgmCn5JsRnazJcGqhoeU+TnWvdLFf/KFiBicI84kBsSfk4dWo/7OLsgcgqD3vwVTCsoNzyb0Vb6XTh6s6UAV8LmE8e5Cj9+PtndKnmPfCZCJMEpGSkL4ac1Eic49e6v4F/5DO9K7JWHFuZQryYGHo2W8WrNjUAHtNHrkMy0JM8YmL6gGeevbzaaxKd2j9aYiW9ZeMb7GXJh95fafBh2ZKRfaiKy1XCP47H4eezIw6m5wxD8TCeRTthrPqQz5irZIXyzoHSP/RxaM91ES5LlAAwUYdVOYG86h5GOjg+ilPc5W7pM0iolVCTP995Bt/oewhip6k5CAoODeFXhBCHegjPEYF4KZg/1QAn9hgQtmJq/2BqyGLrpRIsiTGgr2QSaUNRF4YVIwIhBbpNIqLwcyjGw5fDCLJZ7MohWlALurtzD23fSDYg27YUhzX/pl9JjHQJw5uEMTKuGKQCOoD7lG9Ddk4plMCF7vbWa+JL0cGj4wtL+7YfojQnPnqX82qlIkFW7vvWjTV72l8FbetgFX6nKX4oEknbu9TC8PTXa8SeFzdbfQbE8zIHHer4VVHCvzQD4T7VEdpB4l9nCfeET3AzASVSKpwMQlI+t97qVUJctikV90IXQyuYIZUXZL6ZK2OpORUQiVixV0fBzAj3rH1r8KQfkMqQy8wTNSDDLFlzKtSXp0g6IbJ6w4b1uBmAkqkVTgYhOmEMVA8Qu2+bFTit60emTt1r4GYfDdQnK/ZvwqOcFXR3bkNYQEys5p1wTEwYZ/ilV5+vfCV6ZpxY5fekZ6ZDwPO6f6UooDPl6tKPJXtzf3aD8zKoZe/Fy3AVYEQL6Ahw1yWtKRgoq9cbCov0NMZpxVtQwMcAbRQBRvWZSbT4Fy31dlB8PohkzfESVsosFubnN6VQzi9tDsumf//hll/zpd3O1bvywtiEM6P8uUwjfX+c6mCRm2WLUteRW3eE1kJiZbPZf/75zULOz+BdEFr/vvXVQNcHI+PISOFHUS7+K7qG1ln8YWJJmHNDFjh0WV/MP9wYl7PUWuapvby3LOSP1hR/7zHIOQWX6eZhDMPBk6VoAI8YXAkp/+818vV4GvruhIKhQtaGahQmdAc/A8h18fdS3Aeqluvkvq9UKKTc3jJsINaJX30AonPXkARWYJ/S/Uz7k6VCc2YdCsAE8TeXL22+cNw9uP2uz7yCAc+jZgRkgqKjGucj12jcv1EtRmW5jabM6t4FN8Q30bLcu3FIFsKUlTiKBLM5Cq9xZhl4lKFlrb8rrLlbWeFKHhRIm+nR4kI+fgoxoDDZK/2ZRm44S+YCwBf5ddPuSmH2AYO1FPTwcg3xXe9f/eVIU9ndXWriZUsCoBcJtcdH72/wWV6SFsd7g2zxkgyqQNA/He7c35WVXz1Wgphx5mvj33oa5Fzniv8t1ucohVL+ZB/Ip+ocJNue0Pl3rq3UrpZ9W1pU4jSh9k3NHDzVqmOlxOY9A5ZUMsOeeu8GSVeXP0cXkez5Pi0T4u8//5Kq6BO2RRvzhuboDHCj6U0UTkVjYkiX+7Hf+etMrwc9zST5s2ESb+NYIf4STkZwRidxP6CidMp0xoBE4v/2254th7MbMnwoSqGC354VyLhl4Q7ZOOKm4y8L+TYAor3i9fw/O3liUMmCTWFIBwxLbZBE1zU6jdXc5nl5aJxoK8ty5pvch6ubZ0aozJyrpW3ugjssDT747QbtYyijOAps6BD4f2JYMYFoINgms+BoUb9Cp3oTS+Mn6AuPxWEFH6B901RztfM74yWLwL+GjGJwDibI0TSzf+TdxALu9Lu+0yRTZjV2grzSPiVCSDu5yHxSE8fEi/HEfhBNVDnTQL+dpcL/8NaJVcqAApDnHiIpBW69f5+yqWPbARQQYvaBl/Tgqv5gVAjMD7kF2ZP3NhQRpRn3mUGSyNZbVH4uPA6CPPbqwLx5I/zQ6kryT+iuyO3nelccMT6hmk2tdqkuqUwny86JmplmrGebw9XInhfUTC49bDAx3ivpcwsMHWRDRaH9IB0QeBvvuYJcCeXYdEb/AQt01U0QY4UPv+nCYpy5J2uCzkOiKDfYmXFlLvWFjqidy99I8URw2hAAFgHXnmnVYGZXk/WZMGyv2KUBxQQqtJTko15KNNJpiJI6+TeSsFAgM3XXh48Y8rqhWOCCHSeDWifcP6elgaT+wYE9n9BusPHkcvsIBKlBh/n+EXf8Og33qWMmBnb3iOmQr8D5bExYfL/ExYKNfo/QVf+DTeib66tteEJhufzve8VKtz3yuci6yjiiB4pM2QLgKbTBg2esvp/nY3jldKH9uO0ZgWJWD/nqZCiaX+9yzqOT+mX9qdHTv6McgBgGZMg+g/NGuUp6Z2f9slkGlESvvvMVWpt147D/SAAXgVgAuECKuEtoKTwWVcPU0XTwJCOh1s6JZ8OVBMKpQnYkcGLNx8RGxKWt7/xLkdRuT/0DzybZhQImmLVQv5IsvJxZV/tNkn4cARq5A1FG0UrW5ejJDkE/XIKyrm5eXf4P7j/iAZ/yn0fz5WoOJQO6YVT+PqyNCll+1yDhypcRKB6oM8NES9ABA4S5u8k+YjphatUdmY0HSKuFPem4SdrZZcxKHu4XXwLWk6l2W3+VOZ9EgAxL1XQmiRA7q9Qn0DtTBL+aGPqpUdqaZ8tsPYFuAo5T5BvaU2crfI3pBM92DJJOW0QXzdgZRh0V/hJiwUEO4YN/kizpMg73rMfXbCqLYCaRXTY9fiOsR4J9+YnCyuk+hx9b2M9vEbRGsO703e+sCjsfg+cRa5G2L2hCPuekppzfQXgkEru8RZmd/WWHXokm+mji7jvJn1ubtsuWEldifD13YqBnp0N3q5n/Fen5pVujwJ2BFEfqgTkdfAe/sYqfKDjkYXTI7XRwb+CHaSBlZH2dWmZK/MWW5BAF2JKa4mq74bx+SmZRDsckR7ioyzGhgrMvZhazUUGia1jWnMS4aH/ayNvs3xIz7+8YunD4qM0t5RiZcvk3KYRcnx5+mPFzyIe25ZBCCRc4NAqlbFmQ/Phzck2u67uoHSq/M2HPGtNbt0OcMZNRhzaACYPr+jqCQ2CIFEvd/CMGvv3f6Juy+ibmSNXkgC3k/6P+EXf8ONk3hgC6w1ugrFnz8A/j5zu/iahbpGRCh+GgIAQHDnkd+1b5rfKQ5OZ7wpJV8LiTYrbuXGFIPT7uBuUJHpS68vx16ijFHqMY2Ef87sZatcMQQvWUMYWpVMkbkk2RVqsL24bAAYnjzQCjnvkjqzk/A0OqmTWRwljeOHjAUtCg2aAbwQyGm1qQriGlpGOlfQ0K7eaqMbsEgC+mgrD15ERilcCMD/WuOD2okYSiM6DKEuvvw3roa6S6TQuwjhz2PIG0BdBoAw6GImDrlNUgOXQfg8npylbewQCitmY1UoIgUKLKYRwTmlWNejklGpi4rAMm1Y3Fg6ZeP91MGThCmzvUZ0zTr5BbjEoW8sA+SC2oZPZ9vXIb0GV+WrVSClgvvNgKPKrgYaAJX8KMIoPaQIevybMgCmxzgiu58vMSGvlUomhXd5YgHeC7oN9U8/n8PMf1gP4OkVbifxciqts1po5UUFU9MG8CJ5psJjdJTab4swszlBhpAiVHMQv4xaI9tIF8dvKWFgtlRw70D9Q8ae3eJvWBGM+O1UbAOSqaUGbNzZGT33mA9BudE2zpaqusAAai1o7AGcr6pFaD8JmeXlAeMovBdnowmsQ/ETSfsbu29TvgwRzRwWpqqHhz2ij762uBoD00Y3ZTqRFgwkjOC1WkSI1ymBkSyONMshd8vbuNTeAKQ0SR4/YUAFDeGFp/9mTH/xjrMcbw0kViMvISRmzh2Whjp9A2zgccC0DYsbPACtv7SMO9evQM07TdSt63JaGenWDwQ9JyQU9KhAlF4QKyuW4KOebJwd5wvPvTKCRNeHaMjtEjJL34FQt7HvBNQrCqIRTPVtb/kjVt0m9glxmPe6O9Vcw5CKuKSGICCH7ImnVAtGjz50UyObnSMpKdM2M6MaU3QQHMxwTs37EVrMbMpX28vJw/W2JkHFO40Ng4oiViX4CFBYd9GGfaw41SBQjjLAM2s3cwyo66YrbkDhTDNV98MQoUmJthayx080rJs0NxjuZXX1VoukGkVv0Yv6YhaHOOjchL/jV9i6BFLaFDvD43NONrXfMVzuZKb34nQfdNmpYHbfNrct0jIhQ/JuAWzgVBvBZK/hu/Ber1swtZpAHs8/904T3TERU+qfQP8xh7IK//Sqvlw9g3RzsrBcBVsSe9WWJsQkRyKhiHR+2jCeEcGBHTOv54O+8AoNC+Bf9EwLcune7OjxZxqgTSmoe4Yk4Sf0LKtwDzgsVt8YUQbEtcKraL1blWPd2ZX8R888VvcJvQu/Xc5nvP0GVPkiVivux+X+tH9vnLOW9xB/HeY7WJrmgSFIvCoCcE5icsS4wBQVxjDXT4JNCFNtTG3R59l/Z0V5g7wMOZ4eQAtCT11r3BS0PorNxXGSYNAkbS2XhQ7hNStOdIZpcxasPQ6aOm9f3mgySNnnZTw4LgwIex/MoeqKilCkZYQmGufjhDoYpzYpXsHFSsl2QbInc4L7kvHwPcj0As4oq/++j65Mids/TM/FeXXfPSgxIiW4YzNdhavokiAYL8lESSuec5O9CiSRs2eYyk2iOiieQj8Tam4IZFqdWaSlDBiDZQACq7rjPR0plDQ061nvaJ7altXWZWzIwF86l1tzN2YuGhrHZwi7EZg37mP2cOO28Hbx1x0azkOYK3aBPbdr+8I1Ep6Sz2TDDqEPLdAoRDUz/LUm4tJxg8uPo6z0Soxb3OoknTZ7aUHDgg18bkwdqZKqsj0Q3AKqltqW04rg1T4Ci+zjMo3HAyCtD+ew65zHc7vaLK/pBvcqgDA3WRVPg3TpEKPuAhtfxPEJt1FsJDm+3Pzr7ppFhKzetJxLZbHdgKscpeoAv2BnrpxdoFuz6Mrs/ujk2qYHW/ranYp3ueHuMB20VxAbEaIbERHYatNp7b/kt7lqzeGsyjdSuIswDXBJzkNqLR0NVsDRzsZt/qEpmqF1UkHUxEDLkJSe15b/dh5oMgFLzTZ4RPCt1n4wo0ZYQtNrH+35j5LBZ2uId2C+dFetqrxWcjDs2TGSqTLngdFXmfThfitzntvjd6aK7Exzn+fEtlmC2RFTACqSuwwyUPZl67rNpiL2tRBoDYAoruVxYnBT+xC4XPqafinTqgO2htWwcSIPypOltNIMGqIPA8MD6K2wbgKnB4+UBWqHtvY1+64UQ+HzTwMHFuoEgyh6UwVz855sJmAG//gF+fsTQ+fbzWffFe3sxEIpGHVDgwQEaxD45pWBgj1nQCP6SBf2ipnhBvCR3LnOGFwB0LJ6u5KH1N4psycRaxeh4Bn+aOEt9G3JnvNnhyAGeMk/yMCNY9Lp55NvkMnJuyKALxgLf0DhgDPNSPcrc+JRi2/1Gq1kg4AUnnpw9SD1VZeTifH21ARpAtU1DwdhCmagAAAAAAAAAAAAhuiP4lwDzQU0N5aC6khNiGtFmKxcBaIAAAAF34ma0YJqX80WYh9U+AVWQ/cqp4OjSzWqx5du9WCmfcA/E/LIQoA1juj11o7FAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" alt="Bainbridge AI" class="h-12 w-auto">
+        </a>
+
+        <!-- Desktop Nav -->
+        <div class="hidden lg:flex items-center gap-1">
+          <div class="relative group">
+            <a href="#solutions" class="flex items-center gap-1 px-4 py-2 text-slate-600 hover:text-[#013e6a] font-medium">
+              Solutions
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </a>
+            <div class="absolute top-full left-0 pt-2 w-72 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+              <div class="bg-white rounded-2xl shadow-xl border border-slate-100 p-2">
+                <a href="#" class="block p-3 rounded-xl hover:bg-slate-50">
+                  <div class="font-semibold text-slate-800">Workflow Mapping</div>
+                  <div class="text-sm text-slate-500">Document how work actually gets done</div>
+                </a>
+                <a href="#" class="block p-3 rounded-xl hover:bg-slate-50">
+                  <div class="font-semibold text-slate-800">Process Automation</div>
+                  <div class="text-sm text-slate-500">Eliminate repetitive manual tasks</div>
+                </a>
+                <a href="#" class="block p-3 rounded-xl hover:bg-slate-50">
+                  <div class="font-semibold text-slate-800">System Integration</div>
+                  <div class="text-sm text-slate-500">Connect your existing tools</div>
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="relative group">
+            <a href="#industries" class="flex items-center gap-1 px-4 py-2 text-slate-600 hover:text-[#013e6a] font-medium">
+              Industries
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </a>
+            <div class="absolute top-full left-0 pt-2 w-72 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+              <div class="bg-white rounded-2xl shadow-xl border border-slate-100 p-2">
+                <a href="#" class="block p-3 rounded-xl hover:bg-slate-50">
+                  <div class="font-semibold text-slate-800">Collision Repair</div>
+                  <div class="text-sm text-slate-500">Auto body shops & repair centers</div>
+                </a>
+                <a href="#" class="block p-3 rounded-xl hover:bg-slate-50">
+                  <div class="font-semibold text-slate-800">Insurance Agencies</div>
+                  <div class="text-sm text-slate-500">P&C and life insurance</div>
+                </a>
+                <a href="#" class="block p-3 rounded-xl hover:bg-slate-50">
+                  <div class="font-semibold text-slate-800">Small Business</div>
+                  <div class="text-sm text-slate-500">Any service-based business</div>
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <a href="#about" class="px-4 py-2 text-slate-600 hover:text-[#013e6a] font-medium">About</a>
+          <a href="#contact" class="px-4 py-2 text-slate-600 hover:text-[#013e6a] font-medium">Contact</a>
+        </div>
+
+        <!-- Right buttons -->
+        <div class="hidden lg:flex items-center gap-3">
+          <a href="#" class="px-4 py-2 text-slate-600 hover:text-[#013e6a] font-medium">Log in</a>
+          <a href="https://calendar.app.google/PtjoA2YypXdnF2KW6" target="_blank" class="px-6 py-2.5 rounded-full font-semibold text-white bg-[#013e6a] hover:scale-105 transition-transform">
+            Get Your Free Assessment
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="pt-32 pb-20 px-6 bg-gradient-to-b from-slate-50 via-white to-white overflow-hidden">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <!-- Left: Text -->
+        <div>
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#e0f7ff] text-[#013e6a] text-sm font-semibold mb-6">
+            <span class="w-2 h-2 rounded-full bg-[#43d1ff] animate-pulse"></span>
+            Foundation-First Business Systems
+          </div>
+          
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight mb-6 text-slate-900">
+            From chaos to <span class="gradient-text">clarity</span>
+          </h1>
+          
+          <p class="text-xl text-slate-600 leading-relaxed mb-8 max-w-lg">
+            Your processes. Your expertise. Your data—protected by enterprise-grade security. Captured in systems powered by smart automations and AI—because your business IP shouldn't live in six different apps, three filing cabinets, a shared drive no one can access, and the back of your best employee's mind.
+          </p>
+          
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="https://calendar.app.google/PtjoA2YypXdnF2KW6" target="_blank" class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-semibold text-white bg-[#013e6a] hover:scale-105 transition-transform shadow-lg">
+              Book a Demo
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+              </svg>
+            </a>
+            <a href="#solutions" class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-semibold text-[#013e6a] border-2 border-slate-200 hover:border-[#013e6a] transition-all">
+              See how it works
+            </a>
+          </div>
+        </div>
+
+        <!-- Right: Floating Mockups -->
+        <div class="relative h-[500px] lg:h-[600px]">
+          <!-- Main Dashboard -->
+          <div class="absolute top-0 right-0 w-[90%] float-animation">
+            <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
+              <div class="flex items-center gap-2 px-4 py-3 bg-slate-50 border-b border-slate-200">
+                <div class="flex gap-1.5">
+                  <div class="w-3 h-3 rounded-full bg-red-400"></div>
+                  <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+                  <div class="w-3 h-3 rounded-full bg-green-400"></div>
+                </div>
+                <div class="flex-1 text-center text-sm text-slate-500 font-medium">Operations Dashboard</div>
+              </div>
+              <div class="p-6 bg-gradient-to-br from-slate-50 to-white">
+                <div class="grid grid-cols-3 gap-4 mb-6">
+                  <div class="bg-white rounded-xl p-4 border border-slate-100 shadow-sm">
+                    <div class="text-xs text-slate-500 font-medium">Jobs This Month</div>
+                    <div class="text-2xl font-bold text-[#013e6a] mt-1">47</div>
+                    <div class="text-xs font-semibold text-green-500 mt-1">+12%</div>
+                  </div>
+                  <div class="bg-white rounded-xl p-4 border border-slate-100 shadow-sm">
+                    <div class="text-xs text-slate-500 font-medium">Avg Cycle Time</div>
+                    <div class="text-2xl font-bold text-[#013e6a] mt-1">4.2d</div>
+                    <div class="text-xs font-semibold text-green-500 mt-1">-18%</div>
+                  </div>
+                  <div class="bg-white rounded-xl p-4 border border-slate-100 shadow-sm">
+                    <div class="text-xs text-slate-500 font-medium">Net Profit</div>
+                    <div class="text-2xl font-bold text-[#013e6a] mt-1">$128k</div>
+                    <div class="text-xs font-semibold text-green-500 mt-1">+24%</div>
+                  </div>
+                </div>
+                <div class="bg-white rounded-xl p-4 border border-slate-100 shadow-sm">
+                  <div class="flex justify-between items-center mb-4">
+                    <div class="text-sm font-semibold text-slate-700">Weekly Performance</div>
+                    <div class="text-xs text-slate-500">Last 7 days</div>
+                  </div>
+                  <div class="flex items-end gap-2 h-24">
+                    <div class="flex-1 rounded-t-md bg-[#013e6a] opacity-60" style="height: 40%"></div>
+                    <div class="flex-1 rounded-t-md bg-[#013e6a] opacity-60" style="height: 65%"></div>
+                    <div class="flex-1 rounded-t-md bg-[#013e6a] opacity-60" style="height: 45%"></div>
+                    <div class="flex-1 rounded-t-md bg-[#013e6a] opacity-60" style="height: 80%"></div>
+                    <div class="flex-1 rounded-t-md bg-[#013e6a] opacity-60" style="height: 55%"></div>
+                    <div class="flex-1 rounded-t-md bg-[#43d1ff]" style="height: 90%"></div>
+                    <div class="flex-1 rounded-t-md bg-[#013e6a] opacity-60" style="height: 70%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Google Sheets Mockup -->
+          <div class="absolute bottom-12 left-0 w-[75%] float-animation-delayed z-10">
+            <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
+              <div class="flex items-center gap-3 px-4 py-3 bg-[#188038]">
+                <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/>
+                  <path d="M7 7h2v2H7zm0 4h2v2H7zm0 4h2v2H7zm4-8h6v2h-6zm0 4h6v2h-6zm0 4h6v2h-6z"/>
+                </svg>
+                <span class="text-white font-medium text-sm">Job Tracker - Master Sheet</span>
+              </div>
+              <div class="p-1 bg-white">
+                <table class="w-full text-xs">
+                  <thead>
+                    <tr class="bg-slate-100">
+                      <th class="px-3 py-2 text-left text-slate-600 font-semibold border-r border-slate-200">Job #</th>
+                      <th class="px-3 py-2 text-left text-slate-600 font-semibold border-r border-slate-200">Customer</th>
+                      <th class="px-3 py-2 text-left text-slate-600 font-semibold border-r border-slate-200">Status</th>
+                      <th class="px-3 py-2 text-left text-slate-600 font-semibold">Est. Value</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="border-t border-slate-100">
+                      <td class="px-3 py-2 text-slate-700 font-mono border-r border-slate-100">JB-0847</td>
+                      <td class="px-3 py-2 text-slate-700 border-r border-slate-100">Martinez, R.</td>
+                      <td class="px-3 py-2 border-r border-slate-100"><span class="px-2 py-0.5 rounded-full text-white text-[10px] font-medium bg-amber-500">In Progress</span></td>
+                      <td class="px-3 py-2 text-slate-700 font-semibold">$4,280</td>
+                    </tr>
+                    <tr class="border-t border-slate-100">
+                      <td class="px-3 py-2 text-slate-700 font-mono border-r border-slate-100">JB-0848</td>
+                      <td class="px-3 py-2 text-slate-700 border-r border-slate-100">Thompson, K.</td>
+                      <td class="px-3 py-2 border-r border-slate-100"><span class="px-2 py-0.5 rounded-full text-white text-[10px] font-medium bg-blue-500">Parts Ordered</span></td>
+                      <td class="px-3 py-2 text-slate-700 font-semibold">$2,950</td>
+                    </tr>
+                    <tr class="border-t border-slate-100">
+                      <td class="px-3 py-2 text-slate-700 font-mono border-r border-slate-100">JB-0849</td>
+                      <td class="px-3 py-2 text-slate-700 border-r border-slate-100">Williams, J.</td>
+                      <td class="px-3 py-2 border-r border-slate-100"><span class="px-2 py-0.5 rounded-full text-white text-[10px] font-medium bg-green-500">Complete</span></td>
+                      <td class="px-3 py-2 text-slate-700 font-semibold">$6,120</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Workflow Card -->
+          <div class="absolute top-1/3 -left-4 w-48 float-animation z-20">
+            <div class="bg-white rounded-xl shadow-lg border border-slate-100 p-4">
+              <div class="text-xs font-semibold text-slate-500 mb-3">WORKFLOW</div>
+              <div class="space-y-2">
+                <div class="flex items-center gap-2">
+                  <div class="w-6 h-6 rounded-full bg-[#013e6a] flex items-center justify-center text-white text-xs font-bold">✓</div>
+                  <span class="text-sm text-slate-700 font-medium">Estimate</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <div class="w-6 h-6 rounded-full bg-[#013e6a] flex items-center justify-center text-white text-xs font-bold">✓</div>
+                  <span class="text-sm text-slate-700 font-medium">Approve</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <div class="w-6 h-6 rounded-full bg-[#013e6a] flex items-center justify-center text-white text-xs font-bold">✓</div>
+                  <span class="text-sm text-slate-700 font-medium">Repair</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <div class="w-6 h-6 rounded-full bg-[#013e6a] opacity-40 flex items-center justify-center text-white text-xs font-bold">4</div>
+                  <span class="text-sm text-slate-400">QC</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <div class="w-6 h-6 rounded-full bg-[#013e6a] opacity-40 flex items-center justify-center text-white text-xs font-bold">5</div>
+                  <span class="text-sm text-slate-400">Invoice</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Problem Section -->
+  <section class="py-24 px-6 bg-white">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-3xl md:text-4xl font-bold mb-6 text-slate-900">Where does your business knowledge actually live?</h2>
+      <p class="text-xl text-slate-600 mb-12">Scattered tools. Tribal knowledge. Heroic effort. It works—until it doesn't.</p>
+      
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
+        <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100 hover-lift">
+          <div class="text-3xl mb-3">📧</div>
+          <p class="text-slate-700 font-medium">Knowledge scattered across apps, inboxes, and "I'll remember that"</p>
+        </div>
+        <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100 hover-lift">
+          <div class="text-3xl mb-3">🔄</div>
+          <p class="text-slate-700 font-medium">Everyone has "their way"—and none of them match</p>
+        </div>
+        <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100 hover-lift">
+          <div class="text-3xl mb-3">🧠</div>
+          <p class="text-slate-700 font-medium">Training? That's three days of "go ask whoever's not busy"</p>
+        </div>
+        <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100 hover-lift">
+          <div class="text-3xl mb-3">🔥</div>
+          <p class="text-slate-700 font-medium">You didn't start a business to become the help desk</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison Section -->
+  <section class="py-24 px-6 bg-gradient-to-b from-slate-50 to-white">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4 text-slate-900">
+          You don't need more documentation.<br>
+          <span class="gradient-text">You need systems that organize, update, and actually use it.</span>
+        </h2>
+      </div>
+      
+      <div class="grid md:grid-cols-2 gap-8">
+        <div class="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
+          <div class="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-4">Traditional Consulting</div>
+          <ul class="space-y-4">
+            <li class="flex items-start gap-3 text-slate-600">
+              <svg class="w-5 h-5 text-slate-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+              Documentation that's outdated before it's finished
+            </li>
+            <li class="flex items-start gap-3 text-slate-600">
+              <svg class="w-5 h-5 text-slate-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+              Binders and PDFs that collect dust
+            </li>
+            <li class="flex items-start gap-3 text-slate-600">
+              <svg class="w-5 h-5 text-slate-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+              SOPs no one knows where to find
+            </li>
+            <li class="flex items-start gap-3 text-slate-600">
+              <svg class="w-5 h-5 text-slate-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+              Systems designed on paper, not for real workflows
+            </li>
+            <li class="flex items-start gap-3 text-slate-600">
+              <svg class="w-5 h-5 text-slate-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+              One-size-fits-all templates that don't fit you
+            </li>
+          </ul>
+        </div>
+        
+        <div class="rounded-2xl p-8 border-2 border-[#013e6a] shadow-lg relative overflow-hidden" style="background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%)">
+          <div class="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold text-white bg-[#013e6a]">RECOMMENDED</div>
+          <div class="text-sm font-semibold text-[#013e6a] uppercase tracking-wider mb-4">Bainbridge AI</div>
+          <ul class="space-y-4">
+            <li class="flex items-start gap-3 text-slate-700 font-medium">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+              </svg>
+              Documentation that updates itself
+            </li>
+            <li class="flex items-start gap-3 text-slate-700 font-medium">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+              </svg>
+              Everything in one place—and everyone knows where
+            </li>
+            <li class="flex items-start gap-3 text-slate-700 font-medium">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+              </svg>
+              SOPs your team will actually open
+            </li>
+            <li class="flex items-start gap-3 text-slate-700 font-medium">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+              </svg>
+              Results in weeks, not months
+            </li>
+            <li class="flex items-start gap-3 text-slate-700 font-medium">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+              </svg>
+              One system instead of twelve tools
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Industries Section -->
+  <section id="industries" class="py-24 px-6 gradient-bg text-white">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Built for teams that need professional-grade systems</h2>
+        <p class="text-xl text-white/70 max-w-2xl mx-auto">We work with operators who feel the daily drag of rework, bottlenecks, and "where is that info?"</p>
+      </div>
+      
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 hover-lift">
+          <h3 class="text-2xl font-bold mb-2">Collision Repair</h3>
+          <p class="text-white/60 mb-6">Auto body shops & repair centers</p>
+          <ul class="space-y-3">
+            <li class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-[#43d1ff]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-white/90">Automated workflows—always know where every vehicle is in the process</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-[#43d1ff]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-white/90">Designed to protect and grow profit on every repair</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-[#43d1ff]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-white/90">Automated customer communication at every stage</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-[#43d1ff]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-white/90">Fully documented repairs—peace of mind for shop and customer</span>
+            </li>
+          </ul>
+        </div>
+        <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 hover-lift">
+          <h3 class="text-2xl font-bold mb-2">Insurance Agencies</h3>
+          <p class="text-white/60 mb-6">P&C and life insurance</p>
+          <ul class="space-y-3">
+            <li class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-[#43d1ff]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-white/90">Compliant workflows that respect HIPAA and privacy regulations</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-[#43d1ff]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-white/90">Renewal automation—never miss a follow-up</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-[#43d1ff]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-white/90">Compliance tracking without the manual headache</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-[#43d1ff]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-white/90">Policy and client management that keeps you audit-ready</span>
+            </li>
+          </ul>
+        </div>
+        <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 hover-lift">
+          <h3 class="text-2xl font-bold mb-2">Small Business</h3>
+          <p class="text-white/60 mb-6">Any service-based business</p>
+          <ul class="space-y-3">
+            <li class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-[#43d1ff]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-white/90">Automated inventory control—know what you have, what you need</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-[#43d1ff]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-white/90">Process documentation your team will actually follow</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-[#43d1ff]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-white/90">Systems designed to maximize profit per job</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-[#43d1ff]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-white/90">Owner freedom—step away without everything falling apart</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-24 px-6 bg-slate-50">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div>
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white text-[#013e6a] text-sm font-semibold mb-6 border border-slate-200">
+            About Us
+          </div>
+          <h2 class="text-3xl md:text-4xl font-bold mb-6 text-slate-900">
+            We're operators who got tired of watching good businesses struggle
+          </h2>
+          <div class="space-y-4 text-lg text-slate-600">
+            <p>We're not here to audit your operations and hand you a report.</p>
+            <p>We're here to roll up our sleeves and build something that actually works—tailored to how your business runs today.</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
+            <div class="text-3xl font-bold mb-1 text-[#013e6a]">Weeks</div>
+            <div class="text-slate-600">From kickoff to working system</div>
+          </div>
+          <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
+            <div class="text-3xl font-bold mb-1 text-[#013e6a]">1</div>
+            <div class="text-slate-600">Single source of truth for your business</div>
+          </div>
+          <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
+            <div class="text-3xl font-bold mb-1 text-[#013e6a]">Tailored</div>
+            <div class="text-slate-600">Built for how YOU work, not a template</div>
+          </div>
+          <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
+            <div class="text-3xl font-bold mb-1 text-[#013e6a]">Real ROI</div>
+            <div class="text-slate-600">Systems designed to increase profit</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-20 px-6 bg-white">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4 text-slate-900">Less Pain. More Profit.</h2>
+      <p class="text-xl text-slate-600 mb-8">Your first system could be live in weeks. Let's talk.</p>
+      <a href="https://calendar.app.google/PtjoA2YypXdnF2KW6" target="_blank" class="inline-flex items-center gap-2 px-10 py-4 rounded-full font-semibold text-white bg-[#013e6a] hover:scale-105 transition-transform shadow-xl">
+        Book a Demo
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-16 px-6 bg-slate-900 text-white">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid md:grid-cols-4 gap-12 mb-12">
+        <div class="md:col-span-2">
+          <!-- Footer Logo -->
+          <img src="data:image/webp;base64,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" alt="Bainbridge AI" class="h-12 w-auto mb-4 brightness-0 invert">
+          <p class="text-slate-400 mb-2">Less Pain. More Profit.</p>
+          <p class="text-slate-500 text-sm">Building practical business foundations that help teams execute consistently.</p>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4">Quick Links</h4>
+          <ul class="space-y-3 text-slate-400">
+            <li><a href="#solutions" class="hover:text-white transition-colors">Solutions</a></li>
+            <li><a href="#industries" class="hover:text-white transition-colors">Industries</a></li>
+            <li><a href="#about" class="hover:text-white transition-colors">About</a></li>
+            <li><a href="#contact" class="hover:text-white transition-colors">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4">Get in Touch</h4>
+          <ul class="space-y-3 text-slate-400">
+            <li><a href="mailto:contact@bainbridgeai.ai" class="hover:text-white transition-colors">contact@bainbridgeai.ai</a></li>
+            <li><a href="https://calendar.app.google/PtjoA2YypXdnF2KW6" target="_blank" class="hover:text-white transition-colors">Book a Demo</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="pt-8 border-t border-slate-800 flex justify-between items-center">
+        <p class="text-slate-500 text-sm">© 2025 Bainbridge AI. All rights reserved.</p>
+        <div class="flex gap-6 text-sm text-slate-500">
+          <a href="#" class="hover:text-white transition-colors">Privacy</a>
+          <a href="#" class="hover:text-white transition-colors">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- AI Chat Widget -->
+  <div class="fixed bottom-6 right-6 z-50">
+    <button onclick="document.getElementById('chat-window').classList.toggle('hidden')" class="w-16 h-16 rounded-full shadow-2xl flex items-center justify-center bg-gradient-to-br from-[#013e6a] to-[#01186a] hover:scale-110 transition-transform">
+      <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+      </svg>
+      <span class="absolute top-0 right-0 w-4 h-4 bg-[#43d1ff] rounded-full border-2 border-white animate-pulse"></span>
+    </button>
+    
+    <div id="chat-window" class="hidden absolute bottom-20 right-0 w-96 bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
+      <div class="p-4 gradient-bg text-white">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="font-semibold">Bainbridge AI</div>
+            <div class="text-xs text-white/70">Typically replies instantly</div>
+          </div>
+        </div>
+      </div>
+      <div class="h-64 p-4 bg-slate-50">
+        <div class="bg-white text-slate-700 px-4 py-3 rounded-2xl rounded-bl-md shadow-sm border border-slate-100 max-w-[80%]">
+          Hi! I'm the Bainbridge AI assistant. How can I help you today?
+        </div>
+      </div>
+      <div class="p-4 border-t border-slate-100 bg-white flex gap-2">
+        <input type="text" placeholder="Type your message..." class="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#43d1ff] text-sm">
+        <button class="px-4 py-2.5 rounded-xl text-white bg-[#013e6a]">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
