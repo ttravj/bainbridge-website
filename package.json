@@ -1,0 +1,10 @@
+{
+  "name": "bainbridge-website",
+  "version": "1.0.0",
+  "description": "Bainbridge AI website with discovery chat",
+  "type": "module",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.52.0",
+    "googleapis": "^144.0.0"
+  }
+}
