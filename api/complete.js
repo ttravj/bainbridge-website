@@ -170,7 +170,7 @@ async function addToSheet(auth, data, docUrl) {
   
   await sheets.spreadsheets.values.append({
     spreadsheetId: process.env.GOOGLE_SHEET_ID,
-    range: 'Sheet1!A:W',
+    range: 'Pipeline!A:W',
     valueInputOption: 'USER_ENTERED',
     requestBody: {
       values: [rowData]
