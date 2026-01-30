@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Process Automation | Bainbridge AI</title>
+    <meta name="description" content="Eliminate repetitive manual tasks. Build automations that handle the busywork so your team can focus on what matters.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --deep-blue: #013E6A;
+            --navy: #01186A;
+            --sky-blue: #419AD6;
+            --bright-cyan: #43D1FF;
+            --white: #ffffff;
+            --light-gray: #f8fafc;
+            --medium-gray: #64748b;
+            --dark-gray: #1e293b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--white);
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--deep-blue);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--dark-gray);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--deep-blue);
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .dropdown-toggle::after {
+            content: '▼';
+            font-size: 0.6rem;
+            transition: transform 0.2s;
+        }
+
+        .dropdown:hover .dropdown-toggle::after {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: -1rem;
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            padding: 0.75rem 0;
+            min-width: 260px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.2s;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1.25rem;
+            font-size: 0.875rem;
+        }
+
+        .dropdown-menu a small {
+            display: block;
+            color: var(--medium-gray);
+            font-weight: 400;
+            margin-top: 0.125rem;
+        }
+
+        .btn-nav {
+            background: var(--deep-blue);
+            color: var(--white) !important;
+            padding: 0.625rem 1.25rem;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .btn-nav:hover {
+            background: var(--navy);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 2rem 5rem;
+            background: linear-gradient(135deg, var(--deep-blue) 0%, var(--navy) 100%);
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 60%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+            opacity: 0.5;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.15);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-badge::before {
+            content: '⚡';
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 span {
+            color: var(--bright-cyan);
+        }
+
+        .hero p {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            max-width: 500px;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: var(--white);
+            color: var(--deep-blue);
+            padding: 0.875rem 1.75rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            padding: 0.875rem 1.75rem;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--white);
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* Hero Visual - Automation Flow */
+        .hero-visual {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+        }
+
+        .automation-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .flow-trigger {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: linear-gradient(90deg, rgba(67,209,255,0.15) 0%, var(--light-gray) 100%);
+            border-radius: 8px;
+            border: 2px solid var(--bright-cyan);
+        }
+
+        .flow-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--deep-blue);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .flow-content h4 {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            margin-bottom: 0.125rem;
+        }
+
+        .flow-content p {
+            font-size: 0.8rem;
+            color: var(--medium-gray);
+        }
+
+        .flow-connector {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.25rem;
+        }
+
+        .flow-connector::before {
+            content: '↓';
+            color: var(--sky-blue);
+            font-size: 1.25rem;
+        }
+
+        .flow-action {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.875rem 1rem;
+            background: var(--light-gray);
+            border-radius: 8px;
+            border-left: 3px solid var(--sky-blue);
+        }
+
+        .action-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--white);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+            border: 1px solid #e2e8f0;
+        }
+
+        .action-content h4 {
+            font-size: 0.85rem;
+            color: var(--dark-gray);
+        }
+
+        .action-content p {
+            font-size: 0.75rem;
+            color: var(--medium-gray);
+        }
+
+        .flow-result {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #dcfce7;
+            border-radius: 8px;
+            border: 2px solid #22c55e;
+        }
+
+        .result-icon {
+            width: 40px;
+            height: 40px;
+            background: #22c55e;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        /* Problem Section */
+        .problem-section {
+            padding: 5rem 2rem;
+            background: var(--white);
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.25rem;
+            color: var(--dark-gray);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--medium-gray);
+            font-size: 1.125rem;
+        }
+
+        .time-waste-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .time-card {
+            padding: 1.5rem;
+            background: var(--light-gray);
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .time-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--deep-blue);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .time-unit {
+            font-size: 0.875rem;
+            color: var(--medium-gray);
+            margin-bottom: 1rem;
+        }
+
+        .time-card h3 {
+            font-size: 1rem;
+            color: var(--dark-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .time-card p {
+            color: var(--medium-gray);
+            font-size: 0.875rem;
+        }
+
+        /* Automation Types Section */
+        .automation-section {
+            padding: 5rem 2rem;
+            background: var(--light-gray);
+        }
+
+        .automation-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .automation-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .automation-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.15);
+        }
+
+        .automation-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--deep-blue) 0%, var(--navy) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .automation-card h3 {
+            font-size: 1.25rem;
+            color: var(--dark-gray);
+            margin-bottom: 0.75rem;
+        }
+
+        .automation-card > p {
+            color: var(--medium-gray);
+            font-size: 0.9rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .automation-examples {
+            list-style: none;
+        }
+
+        .automation-examples li {
+            font-size: 0.85rem;
+            color: var(--dark-gray);
+            padding: 0.375rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .automation-examples li::before {
+            content: '→';
+            color: var(--sky-blue);
+            font-weight: 700;
+        }
+
+        /* Before/After Section */
+        .comparison-section {
+            padding: 5rem 2rem;
+            background: var(--white);
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 2rem;
+            align-items: stretch;
+        }
+
+        .comparison-card {
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        .comparison-before {
+            background: #fef2f2;
+            border: 2px solid #fecaca;
+        }
+
+        .comparison-after {
+            background: #f0fdf4;
+            border: 2px solid #bbf7d0;
+        }
+
+        .comparison-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        .comparison-before .comparison-label {
+            color: #dc2626;
+        }
+
+        .comparison-after .comparison-label {
+            color: #16a34a;
+        }
+
+        .comparison-card h3 {
+            font-size: 1.25rem;
+            color: var(--dark-gray);
+            margin-bottom: 1rem;
+        }
+
+        .comparison-list {
+            list-style: none;
+        }
+
+        .comparison-list li {
+            font-size: 0.9rem;
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .comparison-before .comparison-list li::before {
+            content: '✗';
+            color: #dc2626;
+            font-weight: 700;
+        }
+
+        .comparison-after .comparison-list li::before {
+            content: '✓';
+            color: #16a34a;
+            font-weight: 700;
+        }
+
+        .comparison-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--sky-blue);
+        }
+
+        /* ROI Section */
+        .roi-section {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, var(--deep-blue) 0%, var(--navy) 100%);
+            color: var(--white);
+        }
+
+        .roi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .roi-stat {
+            text-align: center;
+        }
+
+        .roi-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--bright-cyan);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .roi-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Industries Section */
+        .industries-section {
+            padding: 5rem 2rem;
+            background: var(--light-gray);
+        }
+
+        .industries-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .industry-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        .industry-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .industry-card h3 {
+            font-size: 1.25rem;
+            color: var(--dark-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .industry-card > p {
+            color: var(--medium-gray);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .industry-automations {
+            list-style: none;
+        }
+
+        .industry-automations li {
+            font-size: 0.875rem;
+            color: var(--dark-gray);
+            padding: 0.375rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .industry-automations li::before {
+            content: '⚡';
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 5rem 2rem;
+            background: var(--white);
+            text-align: center;
+        }
+
+        .cta-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cta-section h2 {
+            font-size: 2.25rem;
+            color: var(--dark-gray);
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: var(--medium-gray);
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+        }
+
+        .cta-section .btn-primary {
+            background: var(--deep-blue);
+            color: var(--white);
+        }
+
+        .cta-section .btn-primary:hover {
+            background: var(--navy);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-gray);
+            color: var(--white);
+            padding: 3rem 2rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--white);
+        }
+
+        .footer-contact {
+            text-align: right;
+            font-size: 0.875rem;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .footer-contact a {
+            color: var(--bright-cyan);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero p {
+                max-width: none;
+            }
+
+            .hero-cta {
+                justify-content: center;
+            }
+
+            .hero-visual {
+                max-width: 500px;
+                margin: 0 auto;
+            }
+
+            .automation-grid,
+            .industries-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-arrow {
+                transform: rotate(90deg);
+            }
+
+            .roi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.25rem;
+            }
+
+            .section-header h2,
+            .cta-section h2 {
+                font-size: 1.75rem;
+            }
+
+            .roi-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                gap: 1.5rem;
+                text-align: center;
+            }
+
+            .footer-contact {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">BAINBRIDGE</a>
+            <div class="nav-links">
+                <div class="dropdown">
+                    <span class="dropdown-toggle">Solutions</span>
+                    <div class="dropdown-menu">
+                        <a href="workflow-mapping.html">
+                            <strong>Workflow Mapping</strong>
+                            <small>Document how work actually gets done</small>
+                        </a>
+                        <a href="process-automation.html">
+                            <strong>Process Automation</strong>
+                            <small>Eliminate repetitive manual tasks</small>
+                        </a>
+                        <a href="system-integration.html">
+                            <strong>System Integration</strong>
+                            <small>Connect your existing tools</small>
+                        </a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <span class="dropdown-toggle">Industries</span>
+                    <div class="dropdown-menu">
+                        <a href="index.html#industries">
+                            <strong>Collision Repair</strong>
+                            <small>Auto body shops & repair centers</small>
+                        </a>
+                        <a href="index.html#industries">
+                            <strong>Insurance Agencies</strong>
+                            <small>P&C and life insurance</small>
+                        </a>
+                        <a href="index.html#industries">
+                            <strong>Small Business</strong>
+                            <small>Any service-based business</small>
+                        </a>
+                    </div>
+                </div>
+                <a href="index.html#about">About</a>
+                <a href="index.html#contact">Contact</a>
+                <a href="assessment.html" class="btn-nav">Get Your Free Assessment</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">Process Automation</div>
+                <h1>Eliminate repetitive <span>manual tasks</span></h1>
+                <p>Stop paying skilled people to do work a computer should handle. Build automations that run 24/7—so your team focuses on the work that actually moves the needle.</p>
+                <div class="hero-cta">
+                    <a href="assessment.html" class="btn-primary">Get Your Free Assessment →</a>
+                    <a href="#automations" class="btn-secondary">See What We Automate</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="automation-flow">
+                    <div class="flow-trigger">
+                        <div class="flow-icon">📩</div>
+                        <div class="flow-content">
+                            <h4>Trigger: New Estimate Approved</h4>
+                            <p>Insurance company approves repair estimate</p>
+                        </div>
+                    </div>
+                    <div class="flow-connector"></div>
+                    <div class="flow-action">
+                        <div class="action-icon">📋</div>
+                        <div class="action-content">
+                            <h4>Create work order in management system</h4>
+                            <p>Pull estimate data, assign job number</p>
+                        </div>
+                    </div>
+                    <div class="flow-connector"></div>
+                    <div class="flow-action">
+                        <div class="action-icon">📦</div>
+                        <div class="action-content">
+                            <h4>Generate parts order from estimate lines</h4>
+                            <p>Match vendors, check pricing, queue for review</p>
+                        </div>
+                    </div>
+                    <div class="flow-connector"></div>
+                    <div class="flow-action">
+                        <div class="action-icon">📱</div>
+                        <div class="action-content">
+                            <h4>Send customer update via SMS</h4>
+                            <p>"Your repair has been approved and scheduled"</p>
+                        </div>
+                    </div>
+                    <div class="flow-connector"></div>
+                    <div class="flow-result">
+                        <div class="result-icon">✓</div>
+                        <div class="flow-content">
+                            <h4>Done in 30 seconds</h4>
+                            <p>Used to take 15 minutes of manual data entry</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="problem-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>The hidden cost of "it only takes a minute"</h2>
+                <p>Small tasks add up. Here's what repetitive manual work actually costs your business.</p>
+            </div>
+            <div class="time-waste-grid">
+                <div class="time-card">
+                    <div class="time-number">8</div>
+                    <div class="time-unit">hours per week</div>
+                    <h3>Copy-pasting between systems</h3>
+                    <p>Estimate to work order. Work order to invoice. Invoice to accounting. Over and over.</p>
+                </div>
+                <div class="time-card">
+                    <div class="time-number">12</div>
+                    <div class="time-unit">hours per week</div>
+                    <h3>Chasing updates & follow-ups</h3>
+                    <p>Calling vendors for ETA. Texting customers status. Checking if parts arrived.</p>
+                </div>
+                <div class="time-card">
+                    <div class="time-number">6</div>
+                    <div class="time-unit">hours per week</div>
+                    <h3>Finding information</h3>
+                    <p>Which email had that approval? What's the customer's phone number? Where's the photo?</p>
+                </div>
+                <div class="time-card">
+                    <div class="time-number">$52k</div>
+                    <div class="time-unit">per year wasted</div>
+                    <h3>That's one FTE</h3>
+                    <p>26 hours/week × $40/hour × 50 weeks = time your team could spend on billable work.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Automation Types Section -->
+    <section class="automation-section" id="automations">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>What we automate</h2>
+                <p>From simple notifications to complex multi-step workflows, we build automations that actually work.</p>
+            </div>
+            <div class="automation-grid">
+                <div class="automation-card">
+                    <div class="automation-icon">📬</div>
+                    <h3>Notifications & Alerts</h3>
+                    <p>The right person gets the right info at the right time—without anyone remembering to send it.</p>
+                    <ul class="automation-examples">
+                        <li>Customer status updates at each stage</li>
+                        <li>Parts arrival notifications to techs</li>
+                        <li>Payment reminders before due date</li>
+                        <li>Deadline alerts for time-sensitive tasks</li>
+                    </ul>
+                </div>
+                <div class="automation-card">
+                    <div class="automation-icon">🔄</div>
+                    <h3>Data Sync & Entry</h3>
+                    <p>Enter it once, and it flows everywhere it needs to go. No more copy-paste errors.</p>
+                    <ul class="automation-examples">
+                        <li>Estimate to work order to invoice</li>
+                        <li>Customer info across all systems</li>
+                        <li>Inventory counts synced in real-time</li>
+                        <li>Financial data to accounting software</li>
+                    </ul>
+                </div>
+                <div class="automation-card">
+                    <div class="automation-icon">📊</div>
+                    <h3>Reports & Dashboards</h3>
+                    <p>See what's happening without asking anyone. Updated automatically, delivered on schedule.</p>
+                    <ul class="automation-examples">
+                        <li>Daily production status summary</li>
+                        <li>Weekly profit-per-job reports</li>
+                        <li>Monthly KPI dashboards</li>
+                        <li>Real-time work-in-progress tracking</li>
+                    </ul>
+                </div>
+                <div class="automation-card">
+                    <div class="automation-icon">✅</div>
+                    <h3>Task Management</h3>
+                    <p>Tasks create themselves, assign themselves, and follow up automatically.</p>
+                    <ul class="automation-examples">
+                        <li>Work orders auto-created from estimates</li>
+                        <li>QC checklists triggered at completion</li>
+                        <li>Follow-up tasks for no-shows</li>
+                        <li>Escalations when deadlines slip</li>
+                    </ul>
+                </div>
+                <div class="automation-card">
+                    <div class="automation-icon">📝</div>
+                    <h3>Document Generation</h3>
+                    <p>Contracts, invoices, reports—created and sent without lifting a finger.</p>
+                    <ul class="automation-examples">
+                        <li>Repair authorizations pre-filled</li>
+                        <li>Invoices generated at completion</li>
+                        <li>Customer summaries with photos</li>
+                        <li>Compliance documentation auto-filed</li>
+                    </ul>
+                </div>
+                <div class="automation-card">
+                    <div class="automation-icon">🧠</div>
+                    <h3>Smart Routing</h3>
+                    <p>Decisions made automatically based on rules you define. Exceptions flagged for human review.</p>
+                    <ul class="automation-examples">
+                        <li>Jobs assigned by tech skill & capacity</li>
+                        <li>Leads routed to right salesperson</li>
+                        <li>Support tickets prioritized by urgency</li>
+                        <li>Approvals routed by dollar amount</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Before/After Section -->
+    <section class="comparison-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Before and after automation</h2>
+                <p>Real example: Customer update workflow at a collision repair shop.</p>
+            </div>
+            <div class="comparison-grid">
+                <div class="comparison-card comparison-before">
+                    <div class="comparison-label">Before</div>
+                    <h3>Manual customer updates</h3>
+                    <ul class="comparison-list">
+                        <li>CSR checks management system for status</li>
+                        <li>Looks up customer phone number</li>
+                        <li>Types out text message manually</li>
+                        <li>Logs the communication in the file</li>
+                        <li>Repeats 20+ times per day</li>
+                        <li>Sometimes forgets, customer calls angry</li>
+                        <li>Takes 3-5 minutes per update</li>
+                    </ul>
+                </div>
+                <div class="comparison-arrow">→</div>
+                <div class="comparison-card comparison-after">
+                    <div class="comparison-label">After</div>
+                    <h3>Automated customer updates</h3>
+                    <ul class="comparison-list">
+                        <li>Status change triggers automatic text</li>
+                        <li>Customer name & details pulled automatically</li>
+                        <li>Pre-written templates personalized</li>
+                        <li>Communication logged automatically</li>
+                        <li>Runs 24/7, never forgets</li>
+                        <li>Customers always informed</li>
+                        <li>Takes 0 minutes of staff time</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ROI Section -->
+    <section class="roi-section">
+        <div class="section-container">
+            <div class="section-header" style="color: var(--white);">
+                <h2>The numbers don't lie</h2>
+                <p style="color: rgba(255,255,255,0.9);">Typical results from our automation implementations.</p>
+            </div>
+            <div class="roi-grid">
+                <div class="roi-stat">
+                    <div class="roi-number">80%</div>
+                    <div class="roi-label">Reduction in data entry time</div>
+                </div>
+                <div class="roi-stat">
+                    <div class="roi-number">95%</div>
+                    <div class="roi-label">Fewer missed follow-ups</div>
+                </div>
+                <div class="roi-stat">
+                    <div class="roi-number">10+</div>
+                    <div class="roi-label">Hours saved per week per employee</div>
+                </div>
+                <div class="roi-stat">
+                    <div class="roi-number">3x</div>
+                    <div class="roi-label">ROI within 90 days</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Industries Section -->
+    <section class="industries-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Automations built for your industry</h2>
+                <p>We know the specific workflows that eat up time in your business.</p>
+            </div>
+            <div class="industries-grid">
+                <div class="industry-card">
+                    <div class="industry-icon">🚗</div>
+                    <h3>Collision Repair</h3>
+                    <p>Automate the admin so your team focuses on repairs.</p>
+                    <ul class="industry-automations">
+                        <li>Estimate-to-work-order automation</li>
+                        <li>Parts ordering and tracking</li>
+                        <li>Customer status updates via text</li>
+                        <li>Supplement request workflows</li>
+                        <li>QC checklist triggers</li>
+                    </ul>
+                </div>
+                <div class="industry-card">
+                    <div class="industry-icon">📋</div>
+                    <h3>Insurance Agencies</h3>
+                    <p>Never miss a renewal or compliance deadline again.</p>
+                    <ul class="industry-automations">
+                        <li>Renewal reminder sequences</li>
+                        <li>Policy change notifications</li>
+                        <li>Commission tracking and reporting</li>
+                        <li>Compliance documentation</li>
+                        <li>Claims status updates</li>
+                    </ul>
+                </div>
+                <div class="industry-card">
+                    <div class="industry-icon">🏢</div>
+                    <h3>Small Business</h3>
+                    <p>Big-company efficiency without the big-company budget.</p>
+                    <ul class="industry-automations">
+                        <li>Lead follow-up sequences</li>
+                        <li>Appointment reminders</li>
+                        <li>Invoice generation and reminders</li>
+                        <li>Inventory alerts</li>
+                        <li>Employee task assignments</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-container">
+            <h2>Less Pain. More Profit.</h2>
+            <p>Stop paying people to do computer work. Let's identify the tasks eating up your team's time and build automations that pay for themselves.</p>
+            <a href="assessment.html" class="btn-primary">Get Your Free Assessment →</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <a href="index.html" class="footer-logo">BAINBRIDGE</a>
+            <div class="footer-links">
+                <a href="workflow-mapping.html">Workflow Mapping</a>
+                <a href="process-automation.html">Process Automation</a>
+                <a href="system-integration.html">System Integration</a>
+                <a href="index.html#about">About</a>
+                <a href="index.html#contact">Contact</a>
+            </div>
+            <div class="footer-contact">
+                <a href="mailto:contact@bainbridgeai.ai">contact@bainbridgeai.ai</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

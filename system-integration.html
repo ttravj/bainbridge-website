@@ -1,0 +1,1741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Integration | Bainbridge AI</title>
+    <meta name="description" content="Connect your existing tools. Make your software talk to each other so data flows automatically.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --deep-blue: #013E6A;
+            --navy: #01186A;
+            --sky-blue: #419AD6;
+            --bright-cyan: #43D1FF;
+            --white: #ffffff;
+            --light-gray: #f8fafc;
+            --medium-gray: #64748b;
+            --dark-gray: #1e293b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--white);
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--deep-blue);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--dark-gray);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--deep-blue);
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .dropdown-toggle::after {
+            content: '▼';
+            font-size: 0.6rem;
+            transition: transform 0.2s;
+        }
+
+        .dropdown:hover .dropdown-toggle::after {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: -1rem;
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            padding: 0.75rem 0;
+            min-width: 260px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.2s;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1.25rem;
+            font-size: 0.875rem;
+        }
+
+        .dropdown-menu a small {
+            display: block;
+            color: var(--medium-gray);
+            font-weight: 400;
+            margin-top: 0.125rem;
+        }
+
+        .btn-nav {
+            background: var(--deep-blue);
+            color: var(--white) !important;
+            padding: 0.625rem 1.25rem;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .btn-nav:hover {
+            background: var(--navy);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 2rem 5rem;
+            background: linear-gradient(135deg, var(--deep-blue) 0%, var(--navy) 100%);
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 60%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+            opacity: 0.5;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.15);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-badge::before {
+            content: '🔗';
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 span {
+            color: var(--bright-cyan);
+        }
+
+        .hero p {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            max-width: 500px;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: var(--white);
+            color: var(--deep-blue);
+            padding: 0.875rem 1.75rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            padding: 0.875rem 1.75rem;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--white);
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* Hero Visual - Integration Hub */
+        .hero-visual {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+        }
+
+        .integration-hub {
+            position: relative;
+            min-height: 320px;
+        }
+
+        .hub-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--deep-blue) 0%, var(--navy) 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            box-shadow: 0 10px 30px rgba(1,62,106,0.3);
+        }
+
+        .hub-center span {
+            color: var(--white);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .hub-connector {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--sky-blue), var(--bright-cyan));
+            transform-origin: left center;
+            z-index: 1;
+        }
+
+        .hub-node {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            background: var(--white);
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: all 0.2s;
+        }
+
+        .hub-node:hover {
+            border-color: var(--sky-blue);
+            transform: scale(1.05);
+        }
+
+        .hub-node span {
+            font-size: 0.6rem;
+            color: var(--medium-gray);
+            font-weight: 500;
+        }
+
+        .node-1 { top: 10px; left: 50%; transform: translateX(-50%); }
+        .node-2 { top: 50px; right: 20px; }
+        .node-3 { bottom: 50px; right: 20px; }
+        .node-4 { bottom: 10px; left: 50%; transform: translateX(-50%); }
+        .node-5 { bottom: 50px; left: 20px; }
+        .node-6 { top: 50px; left: 20px; }
+
+        .connector-1 { transform: translateY(-50%) rotate(-90deg); }
+        .connector-2 { transform: translateY(-50%) rotate(-30deg); }
+        .connector-3 { transform: translateY(-50%) rotate(30deg); }
+        .connector-4 { transform: translateY(-50%) rotate(90deg); }
+        .connector-5 { transform: translateY(-50%) rotate(150deg); }
+        .connector-6 { transform: translateY(-50%) rotate(210deg); }
+
+        .data-flow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 6px;
+            height: 6px;
+            background: var(--bright-cyan);
+            border-radius: 50%;
+            animation: flowPulse 2s infinite;
+        }
+
+        @keyframes flowPulse {
+            0%, 100% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.5); }
+        }
+
+        /* Problem Section */
+        .problem-section {
+            padding: 5rem 2rem;
+            background: var(--white);
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.25rem;
+            color: var(--dark-gray);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--medium-gray);
+            font-size: 1.125rem;
+        }
+
+        .disconnected-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .disconnect-card {
+            padding: 1.5rem;
+            background: var(--light-gray);
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .disconnect-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .disconnect-card h3 {
+            font-size: 1.125rem;
+            color: var(--dark-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .disconnect-card p {
+            color: var(--medium-gray);
+            font-size: 0.9rem;
+        }
+
+        /* Foundation Section */
+        .foundation-section {
+            padding: 5rem 2rem;
+            background: var(--white);
+        }
+
+        .foundation-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .foundation-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--deep-blue) 0%, var(--navy) 100%);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .foundation-content h2 {
+            font-size: 2.25rem;
+            color: var(--dark-gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .foundation-content h2 span {
+            color: var(--deep-blue);
+        }
+
+        .foundation-content > p {
+            color: var(--medium-gray);
+            font-size: 1.05rem;
+            margin-bottom: 1rem;
+        }
+
+        .foundation-principle {
+            display: flex;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(1,62,106,0.05) 0%, rgba(1,24,106,0.05) 100%);
+            border-radius: 12px;
+            border-left: 4px solid var(--deep-blue);
+            margin-top: 1.5rem;
+        }
+
+        .principle-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .principle-content h4 {
+            font-size: 1.1rem;
+            color: var(--dark-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .principle-content p {
+            font-size: 0.95rem;
+            color: var(--medium-gray);
+        }
+
+        .foundation-visual {
+            padding: 1rem;
+        }
+
+        .foundation-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .comparison-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 1.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .comparison-card.bad {
+            border-top: 4px solid #ef4444;
+        }
+
+        .comparison-card.good {
+            border-top: 4px solid #22c55e;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .status-icon {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .bad .status-icon {
+            background: #fef2f2;
+            color: #ef4444;
+            border: 2px solid #ef4444;
+        }
+
+        .good .status-icon {
+            background: #f0fdf4;
+            color: #22c55e;
+            border: 2px solid #22c55e;
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+
+        .diagram-container {
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1.25rem;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bad .diagram-container {
+            background: #fef2f2;
+        }
+
+        .good .diagram-container {
+            background: #f0fdf4;
+        }
+
+        .spaghetti-diagram {
+            position: relative;
+            width: 180px;
+            height: 160px;
+        }
+
+        .spaghetti-diagram svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .spaghetti-diagram .node {
+            position: absolute;
+            width: 65px;
+            height: 32px;
+            background: var(--white);
+            border: 2px solid #ef4444;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--dark-gray);
+            z-index: 2;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .spaghetti-diagram .n1 { top: 0; left: 10px; }
+        .spaghetti-diagram .n2 { top: 0; right: 10px; }
+        .spaghetti-diagram .n3 { bottom: 0; left: 10px; }
+        .spaghetti-diagram .n4 { bottom: 0; right: 10px; }
+
+        .hub-diagram {
+            position: relative;
+            width: 200px;
+            height: 180px;
+        }
+
+        .hub-diagram svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .hub-center-small {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 72px;
+            height: 72px;
+            background: linear-gradient(135deg, var(--deep-blue) 0%, var(--navy) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 0.55rem;
+            font-weight: 700;
+            text-align: center;
+            line-height: 1.3;
+            z-index: 2;
+            box-shadow: 0 6px 16px rgba(1, 62, 106, 0.35);
+        }
+
+        .hub-diagram .spoke {
+            position: absolute;
+            width: 48px;
+            height: 48px;
+            background: var(--white);
+            border: 2px solid #22c55e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--dark-gray);
+            z-index: 2;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+
+        .hub-diagram .s1 { top: 0; left: 50%; transform: translateX(-50%); }
+        .hub-diagram .s2 { top: 50%; right: 0; transform: translateY(-50%); }
+        .hub-diagram .s3 { bottom: 0; left: 50%; transform: translateX(-50%); }
+        .hub-diagram .s4 { top: 50%; left: 0; transform: translateY(-50%); }
+
+        .card-description {
+            font-size: 0.85rem;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .bad .card-description {
+            color: #991b1b;
+        }
+
+        .good .card-description {
+            color: #166534;
+        }
+
+        .foundation-benefits {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .benefit-item {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .benefit-num {
+            width: 32px;
+            height: 32px;
+            background: var(--deep-blue);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .benefit-item h4 {
+            font-size: 1rem;
+            color: var(--dark-gray);
+            margin-bottom: 0.25rem;
+        }
+
+        .benefit-item p {
+            font-size: 0.85rem;
+            color: var(--medium-gray);
+        }
+
+        /* Integration Types Section */
+        .integration-section {
+            padding: 5rem 2rem;
+            background: var(--light-gray);
+        }
+
+        .integration-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .integration-content h2 {
+            font-size: 2.25rem;
+            color: var(--dark-gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .integration-content h2 span {
+            color: var(--deep-blue);
+        }
+
+        .integration-content > p {
+            color: var(--medium-gray);
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+        }
+
+        .integration-types {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .integration-type {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--white);
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s;
+        }
+
+        .integration-type:hover {
+            border-color: var(--sky-blue);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .type-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--deep-blue) 0%, var(--navy) 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .type-content h4 {
+            font-size: 1rem;
+            color: var(--dark-gray);
+            margin-bottom: 0.25rem;
+        }
+
+        .type-content p {
+            font-size: 0.85rem;
+            color: var(--medium-gray);
+        }
+
+        .integration-visual {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .tool-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.15);
+        }
+
+        .tool-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tool-card h4 {
+            font-size: 0.8rem;
+            color: var(--dark-gray);
+            margin-bottom: 0.25rem;
+        }
+
+        .tool-card p {
+            font-size: 0.7rem;
+            color: var(--medium-gray);
+        }
+
+        /* How It Works Section */
+        .process-section {
+            padding: 5rem 2rem;
+            background: var(--white);
+        }
+
+        .process-timeline {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-top: 3rem;
+        }
+
+        .process-timeline::before {
+            content: '';
+            position: absolute;
+            top: 30px;
+            left: 10%;
+            right: 10%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--sky-blue), var(--bright-cyan));
+            border-radius: 2px;
+        }
+
+        .process-step {
+            text-align: center;
+            position: relative;
+            flex: 1;
+            max-width: 200px;
+        }
+
+        .process-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--deep-blue) 0%, var(--navy) 100%);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin: 0 auto 1rem;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 4px 12px rgba(1,62,106,0.3);
+        }
+
+        .process-step h3 {
+            font-size: 1rem;
+            color: var(--dark-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .process-step p {
+            font-size: 0.85rem;
+            color: var(--medium-gray);
+        }
+
+        /* Benefits Section */
+        .benefits-section {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, var(--deep-blue) 0%, var(--navy) 100%);
+            color: var(--white);
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .benefit-card {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .benefit-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .benefit-card h3 {
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .benefit-card p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Common Integrations Section */
+        .common-section {
+            padding: 5rem 2rem;
+            background: var(--light-gray);
+        }
+
+        .common-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .common-category {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .category-icon {
+            font-size: 1.5rem;
+        }
+
+        .category-header h3 {
+            font-size: 1rem;
+            color: var(--dark-gray);
+        }
+
+        .category-list {
+            list-style: none;
+        }
+
+        .category-list li {
+            font-size: 0.85rem;
+            color: var(--medium-gray);
+            padding: 0.375rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .category-list li::before {
+            content: '•';
+            color: var(--sky-blue);
+        }
+
+        /* Industries Section */
+        .industries-section {
+            padding: 5rem 2rem;
+            background: var(--white);
+        }
+
+        .industries-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .industry-card {
+            background: var(--light-gray);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        .industry-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .industry-card h3 {
+            font-size: 1.25rem;
+            color: var(--dark-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .industry-card > p {
+            color: var(--medium-gray);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .industry-integrations {
+            list-style: none;
+        }
+
+        .industry-integrations li {
+            font-size: 0.875rem;
+            color: var(--dark-gray);
+            padding: 0.375rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .industry-integrations li::before {
+            content: '🔗';
+            font-size: 0.75rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 5rem 2rem;
+            background: var(--light-gray);
+            text-align: center;
+        }
+
+        .cta-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cta-section h2 {
+            font-size: 2.25rem;
+            color: var(--dark-gray);
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: var(--medium-gray);
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+        }
+
+        .cta-section .btn-primary {
+            background: var(--deep-blue);
+            color: var(--white);
+        }
+
+        .cta-section .btn-primary:hover {
+            background: var(--navy);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-gray);
+            color: var(--white);
+            padding: 3rem 2rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--white);
+        }
+
+        .footer-contact {
+            text-align: right;
+            font-size: 0.875rem;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .footer-contact a {
+            color: var(--bright-cyan);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero p {
+                max-width: none;
+            }
+
+            .hero-cta {
+                justify-content: center;
+            }
+
+            .hero-visual {
+                max-width: 400px;
+                margin: 0 auto;
+            }
+
+            .integration-hub {
+                min-height: 280px;
+            }
+
+            .hub-center {
+                width: 80px;
+                height: 80px;
+            }
+
+            .hub-node {
+                width: 60px;
+                height: 60px;
+                font-size: 1.25rem;
+            }
+
+            .foundation-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .foundation-comparison {
+                max-width: 500px;
+                margin: 0 auto;
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .foundation-benefits {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .integration-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .integration-visual {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .benefits-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .common-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .industries-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.25rem;
+            }
+
+            .section-header h2,
+            .integration-content h2,
+            .foundation-content h2,
+            .cta-section h2 {
+                font-size: 1.75rem;
+            }
+
+            .foundation-benefits {
+                grid-template-columns: 1fr;
+            }
+
+            .foundation-comparison {
+                grid-template-columns: 1fr;
+            }
+
+            .process-timeline {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .process-timeline::before {
+                display: none;
+            }
+
+            .process-step {
+                max-width: none;
+            }
+
+            .benefits-grid,
+            .common-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .integration-visual {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-container {
+                flex-direction: column;
+                gap: 1.5rem;
+                text-align: center;
+            }
+
+            .footer-contact {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">BAINBRIDGE</a>
+            <div class="nav-links">
+                <div class="dropdown">
+                    <span class="dropdown-toggle">Solutions</span>
+                    <div class="dropdown-menu">
+                        <a href="workflow-mapping.html">
+                            <strong>Workflow Mapping</strong>
+                            <small>Document how work actually gets done</small>
+                        </a>
+                        <a href="process-automation.html">
+                            <strong>Process Automation</strong>
+                            <small>Eliminate repetitive manual tasks</small>
+                        </a>
+                        <a href="system-integration.html">
+                            <strong>System Integration</strong>
+                            <small>Connect your existing tools</small>
+                        </a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <span class="dropdown-toggle">Industries</span>
+                    <div class="dropdown-menu">
+                        <a href="index.html#industries">
+                            <strong>Collision Repair</strong>
+                            <small>Auto body shops & repair centers</small>
+                        </a>
+                        <a href="index.html#industries">
+                            <strong>Insurance Agencies</strong>
+                            <small>P&C and life insurance</small>
+                        </a>
+                        <a href="index.html#industries">
+                            <strong>Small Business</strong>
+                            <small>Any service-based business</small>
+                        </a>
+                    </div>
+                </div>
+                <a href="index.html#about">About</a>
+                <a href="index.html#contact">Contact</a>
+                <a href="assessment.html" class="btn-nav">Get Your Free Assessment</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">System Integration</div>
+                <h1>Connect your <span>existing tools</span></h1>
+                <p>Stop being the human bridge between your software. We make your systems talk to each other so data flows automatically—and you stop doing the same thing twice.</p>
+                <div class="hero-cta">
+                    <a href="assessment.html" class="btn-primary">Get Your Free Assessment →</a>
+                    <a href="#integrations" class="btn-secondary">See How It Works</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="integration-hub">
+                    <div class="hub-center">
+                        <span>YOUR<br>BUSINESS</span>
+                    </div>
+                    <div class="data-flow"></div>
+                    <div class="hub-connector connector-1"></div>
+                    <div class="hub-connector connector-2"></div>
+                    <div class="hub-connector connector-3"></div>
+                    <div class="hub-connector connector-4"></div>
+                    <div class="hub-connector connector-5"></div>
+                    <div class="hub-connector connector-6"></div>
+                    <div class="hub-node node-1">📊<span>CRM</span></div>
+                    <div class="hub-node node-2">📧<span>Email</span></div>
+                    <div class="hub-node node-3">💰<span>Accounting</span></div>
+                    <div class="hub-node node-4">📦<span>Inventory</span></div>
+                    <div class="hub-node node-5">📋<span>Projects</span></div>
+                    <div class="hub-node node-6">📱<span>Comms</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="problem-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>The disconnected systems problem</h2>
+                <p>Most businesses run on 5-15 different tools. None of them talk to each other.</p>
+            </div>
+            <div class="disconnected-grid">
+                <div class="disconnect-card">
+                    <div class="disconnect-icon">🔄</div>
+                    <h3>Double (or triple) entry</h3>
+                    <p>Customer info in the CRM. Same info in the accounting system. Same info in the project tracker. Every time.</p>
+                </div>
+                <div class="disconnect-card">
+                    <div class="disconnect-icon">🔍</div>
+                    <h3>"Which system has the latest?"</h3>
+                    <p>Is the address in QuickBooks right, or should I check the management software? Which one did they update last?</p>
+                </div>
+                <div class="disconnect-card">
+                    <div class="disconnect-icon">⏰</div>
+                    <h3>Reports take forever</h3>
+                    <p>Pull data from three systems, massage it in Excel, pray the numbers match. Repeat monthly.</p>
+                </div>
+                <div class="disconnect-card">
+                    <div class="disconnect-icon">💸</div>
+                    <h3>Dropped balls cost money</h3>
+                    <p>Someone forgets to update the other system. Customer gets wrong info. Invoice doesn't match. Trust erodes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Foundation Section -->
+    <section class="foundation-section">
+        <div class="section-container">
+            <div class="foundation-grid">
+                <div class="foundation-content">
+                    <div class="foundation-badge">Foundation First</div>
+                    <h2>Before you integrate, you need a <span>foundation</span></h2>
+                    <p>Without a base system, every new tool adds complexity. You're not integrating—you're just stacking.</p>
+                    <p>With a foundation in place, adding tools is simple. One connection to the hub. Done. No spaghetti, no surprises.</p>
+                    <div class="foundation-principle">
+                        <div class="principle-icon">🏗️</div>
+                        <div class="principle-content">
+                            <h4>The Foundation Principle</h4>
+                            <p>Every successful integration starts with a central hub—one system that becomes your source of truth. Everything else connects to it, not to each other.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="foundation-visual">
+                    <div class="foundation-comparison">
+                        <!-- Without Foundation -->
+                        <div class="comparison-card bad">
+                            <div class="card-header">
+                                <div class="status-icon">✕</div>
+                                <h3 class="card-title">Without Foundation</h3>
+                            </div>
+                            <div class="diagram-container">
+                                <div class="spaghetti-diagram">
+                                    <svg viewBox="0 0 180 160">
+                                        <line x1="42" y1="32" x2="138" y2="32" stroke="#fca5a5" stroke-width="2"/>
+                                        <line x1="42" y1="32" x2="42" y2="128" stroke="#fca5a5" stroke-width="2"/>
+                                        <line x1="138" y1="32" x2="138" y2="128" stroke="#fca5a5" stroke-width="2"/>
+                                        <line x1="42" y1="128" x2="138" y2="128" stroke="#fca5a5" stroke-width="2"/>
+                                        <line x1="42" y1="32" x2="138" y2="128" stroke="#fca5a5" stroke-width="2"/>
+                                        <line x1="138" y1="32" x2="42" y2="128" stroke="#fca5a5" stroke-width="2"/>
+                                    </svg>
+                                    <div class="node n1">CRM</div>
+                                    <div class="node n2">Email</div>
+                                    <div class="node n3">Accounting</div>
+                                    <div class="node n4">Inventory</div>
+                                </div>
+                            </div>
+                            <p class="card-description">Spaghetti connections. Every change breaks something else.</p>
+                        </div>
+                        <!-- With Foundation -->
+                        <div class="comparison-card good">
+                            <div class="card-header">
+                                <div class="status-icon">✓</div>
+                                <h3 class="card-title">With Foundation</h3>
+                            </div>
+                            <div class="diagram-container">
+                                <div class="hub-diagram">
+                                    <svg viewBox="0 0 200 180">
+                                        <defs>
+                                            <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto">
+                                                <polygon points="0 0, 8 3, 0 6" fill="#22c55e"/>
+                                            </marker>
+                                        </defs>
+                                        <line x1="100" y1="60" x2="100" y2="35" stroke="#22c55e" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                        <line x1="130" y1="90" x2="155" y2="90" stroke="#22c55e" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                        <line x1="100" y1="120" x2="100" y2="145" stroke="#22c55e" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                        <line x1="70" y1="90" x2="45" y2="90" stroke="#22c55e" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                    </svg>
+                                    <div class="hub-center-small">BASE<br>SYSTEM</div>
+                                    <div class="spoke s1">CRM</div>
+                                    <div class="spoke s2">Email</div>
+                                    <div class="spoke s3">Acctg</div>
+                                    <div class="spoke s4">Inv</div>
+                                </div>
+                            </div>
+                            <p class="card-description">Everything pulls from one source of truth.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="foundation-benefits">
+                <div class="benefit-item">
+                    <div class="benefit-num">1</div>
+                    <div>
+                        <h4>Single source of truth</h4>
+                        <p>No more "which system is right?" Every tool gets its data from the same place.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-num">2</div>
+                    <div>
+                        <h4>Easier to maintain</h4>
+                        <p>Change one connection, not twelve. Updates don't cascade into chaos.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-num">3</div>
+                    <div>
+                        <h4>Scales with you</h4>
+                        <p>Add new tools by connecting to the hub. No rewiring required.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-num">4</div>
+                    <div>
+                        <h4>Survives tool changes</h4>
+                        <p>Swap out any spoke without rebuilding everything. Your foundation stays solid.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Integration Types Section -->
+    <section class="integration-section" id="integrations">
+        <div class="section-container">
+            <div class="integration-grid">
+                <div class="integration-content">
+                    <h2>One entry. <span>Everywhere it needs to be.</span></h2>
+                    <p>We build bridges between your tools so data flows automatically. No more copy-paste. No more "which system is right?"</p>
+                    <div class="integration-types">
+                        <div class="integration-type">
+                            <div class="type-icon">↔️</div>
+                            <div class="type-content">
+                                <h4>Two-way sync</h4>
+                                <p>Changes in one system automatically update the other. Always in sync, always current.</p>
+                            </div>
+                        </div>
+                        <div class="integration-type">
+                            <div class="type-icon">→</div>
+                            <div class="type-content">
+                                <h4>One-way push</h4>
+                                <p>Data from your source system flows to downstream tools. No duplicate entry needed.</p>
+                            </div>
+                        </div>
+                        <div class="integration-type">
+                            <div class="type-icon">⚡</div>
+                            <div class="type-content">
+                                <h4>Event-triggered</h4>
+                                <p>When something happens in one system, another system takes action automatically.</p>
+                            </div>
+                        </div>
+                        <div class="integration-type">
+                            <div class="type-icon">📊</div>
+                            <div class="type-content">
+                                <h4>Data aggregation</h4>
+                                <p>Pull data from multiple sources into one dashboard. See the whole picture instantly.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="integration-visual">
+                    <div class="tool-card">
+                        <div class="tool-icon">📋</div>
+                        <h4>CCC ONE</h4>
+                        <p>Estimating</p>
+                    </div>
+                    <div class="tool-card">
+                        <div class="tool-icon">🔧</div>
+                        <h4>Mitchell</h4>
+                        <p>Management</p>
+                    </div>
+                    <div class="tool-card">
+                        <div class="tool-icon">💰</div>
+                        <h4>QuickBooks</h4>
+                        <p>Accounting</p>
+                    </div>
+                    <div class="tool-card">
+                        <div class="tool-icon">📧</div>
+                        <h4>Gmail</h4>
+                        <p>Email</p>
+                    </div>
+                    <div class="tool-card">
+                        <div class="tool-icon">📱</div>
+                        <h4>Twilio</h4>
+                        <p>SMS</p>
+                    </div>
+                    <div class="tool-card">
+                        <div class="tool-icon">📊</div>
+                        <h4>Google Sheets</h4>
+                        <p>Reporting</p>
+                    </div>
+                    <div class="tool-card">
+                        <div class="tool-icon">📦</div>
+                        <h4>PartsTrader</h4>
+                        <p>Parts</p>
+                    </div>
+                    <div class="tool-card">
+                        <div class="tool-icon">📅</div>
+                        <h4>Calendly</h4>
+                        <p>Scheduling</p>
+                    </div>
+                    <div class="tool-card">
+                        <div class="tool-icon">💳</div>
+                        <h4>Stripe</h4>
+                        <p>Payments</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="process-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>How we connect your systems</h2>
+                <p>Most integrations are live within 2-4 weeks. No new software to learn.</p>
+            </div>
+            <div class="process-timeline">
+                <div class="process-step">
+                    <div class="process-number">1</div>
+                    <h3>Map your tools</h3>
+                    <p>We inventory every system you use and how data should flow between them.</p>
+                </div>
+                <div class="process-step">
+                    <div class="process-number">2</div>
+                    <h3>Design connections</h3>
+                    <p>Plan which fields sync, what triggers updates, and how conflicts resolve.</p>
+                </div>
+                <div class="process-step">
+                    <div class="process-number">3</div>
+                    <h3>Build & test</h3>
+                    <p>Create the integrations using reliable middleware, test with your real data.</p>
+                </div>
+                <div class="process-step">
+                    <div class="process-number">4</div>
+                    <h3>Go live & monitor</h3>
+                    <p>Deploy to production with alerts if anything needs attention.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits-section">
+        <div class="section-container">
+            <div class="section-header" style="color: var(--white);">
+                <h2>What connected systems get you</h2>
+                <p style="color: rgba(255,255,255,0.9);">Real benefits from businesses we've integrated.</p>
+            </div>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">⚡</div>
+                    <h3>Instant data access</h3>
+                    <p>Information available where you need it, when you need it—no hunting across systems.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">✅</div>
+                    <h3>Single source of truth</h3>
+                    <p>One system of record. No more "which one is right?" conversations.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🎯</div>
+                    <h3>Fewer errors</h3>
+                    <p>Eliminate typos and copy-paste mistakes. Data enters once, flows correctly.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">📈</div>
+                    <h3>Real-time visibility</h3>
+                    <p>Dashboards that update automatically. See your business as it happens.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Common Integrations Section -->
+    <section class="common-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Systems we commonly connect</h2>
+                <p>If your tools have an API, we can probably connect them.</p>
+            </div>
+            <div class="common-grid">
+                <div class="common-category">
+                    <div class="category-header">
+                        <span class="category-icon">💰</span>
+                        <h3>Accounting</h3>
+                    </div>
+                    <ul class="category-list">
+                        <li>QuickBooks Online/Desktop</li>
+                        <li>Xero</li>
+                        <li>FreshBooks</li>
+                        <li>Wave</li>
+                    </ul>
+                </div>
+                <div class="common-category">
+                    <div class="category-header">
+                        <span class="category-icon">📊</span>
+                        <h3>CRM & Sales</h3>
+                    </div>
+                    <ul class="category-list">
+                        <li>Salesforce</li>
+                        <li>HubSpot</li>
+                        <li>Pipedrive</li>
+                        <li>Monday CRM</li>
+                    </ul>
+                </div>
+                <div class="common-category">
+                    <div class="category-header">
+                        <span class="category-icon">📧</span>
+                        <h3>Communication</h3>
+                    </div>
+                    <ul class="category-list">
+                        <li>Gmail / Google Workspace</li>
+                        <li>Microsoft 365</li>
+                        <li>Slack</li>
+                        <li>Twilio (SMS)</li>
+                    </ul>
+                </div>
+                <div class="common-category">
+                    <div class="category-header">
+                        <span class="category-icon">📋</span>
+                        <h3>Industry-Specific</h3>
+                    </div>
+                    <ul class="category-list">
+                        <li>CCC ONE / Mitchell</li>
+                        <li>AMS360 / Applied Epic</li>
+                        <li>Shopmonkey / Tekmetric</li>
+                        <li>Custom databases</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Industries Section -->
+    <section class="industries-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Integrations built for your industry</h2>
+                <p>We know which systems need to talk to each other in your business.</p>
+            </div>
+            <div class="industries-grid">
+                <div class="industry-card">
+                    <div class="industry-icon">🚗</div>
+                    <h3>Collision Repair</h3>
+                    <p>Connect your estimating, management, and accounting systems.</p>
+                    <ul class="industry-integrations">
+                        <li>CCC → Management System sync</li>
+                        <li>Parts ordering integration</li>
+                        <li>Accounting system updates</li>
+                        <li>Customer communication triggers</li>
+                        <li>Vendor payment automation</li>
+                    </ul>
+                </div>
+                <div class="industry-card">
+                    <div class="industry-icon">📋</div>
+                    <h3>Insurance Agencies</h3>
+                    <p>Unify your AMS, CRM, and carrier systems.</p>
+                    <ul class="industry-integrations">
+                        <li>AMS → CRM contact sync</li>
+                        <li>Policy data aggregation</li>
+                        <li>Commission tracking integration</li>
+                        <li>Carrier download automation</li>
+                        <li>Renewal workflow triggers</li>
+                    </ul>
+                </div>
+                <div class="industry-card">
+                    <div class="industry-icon">🏢</div>
+                    <h3>Small Business</h3>
+                    <p>Make your core business tools work together.</p>
+                    <ul class="industry-integrations">
+                        <li>CRM → Email marketing sync</li>
+                        <li>Booking → Calendar integration</li>
+                        <li>Sales → Accounting automation</li>
+                        <li>Inventory → POS sync</li>
+                        <li>Form → CRM lead capture</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-container">
+            <h2>Less Pain. More Profit.</h2>
+            <p>Stop being the human middleware between your software. Let's connect your systems so data flows automatically—and you get your time back.</p>
+            <a href="assessment.html" class="btn-primary">Get Your Free Assessment →</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <a href="index.html" class="footer-logo">BAINBRIDGE</a>
+            <div class="footer-links">
+                <a href="workflow-mapping.html">Workflow Mapping</a>
+                <a href="process-automation.html">Process Automation</a>
+                <a href="system-integration.html">System Integration</a>
+                <a href="index.html#about">About</a>
+                <a href="index.html#contact">Contact</a>
+            </div>
+            <div class="footer-contact">
+                <a href="mailto:contact@bainbridgeai.ai">contact@bainbridgeai.ai</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
