@@ -553,7 +553,7 @@
             </svg>
           </div>
           <h3 class="font-semibold text-slate-800 mb-2">Email Us</h3>
-          <a href="mailto:travis@bainbridgeai.ai" class="text-[#013e6a] hover:underline">travis@bainbridgeai.ai</a>
+          <a href="mailto:contact@bainbridgeai.ai" class="text-[#013e6a] hover:underline">contact@bainbridgeai.ai</a>
         </div>
         
         <!-- Book a Call -->
@@ -567,16 +567,16 @@
           <a href="https://calendar.app.google/abniEgKe1rFuKKXy5" target="_blank" class="text-[#013e6a] hover:underline">Schedule a time →</a>
         </div>
         
-        <!-- Location -->
-        <div class="bg-white rounded-2xl p-8 text-center shadow-sm border border-slate-100">
-          <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-[#013e6a]/10 flex items-center justify-center">
-            <svg class="w-7 h-7 text-[#013e6a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+        <!-- Start Conversation -->
+        <div class="bg-gradient-to-br from-[#013e6a] to-[#01186a] rounded-2xl p-8 text-center shadow-sm">
+          <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-white/20 flex items-center justify-center">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
             </svg>
           </div>
-          <h3 class="font-semibold text-slate-800 mb-2">Based In</h3>
-          <p class="text-slate-600">Bainbridge Island, WA</p>
+          <h3 class="font-semibold text-white mb-2">Not Sure Where to Start?</h3>
+          <p class="text-white/70 text-sm mb-4">Take our quick assessment and we'll point you in the right direction.</p>
+          <a href="assessment.html" class="inline-block px-5 py-2 bg-white text-[#013e6a] rounded-full font-semibold text-sm hover:bg-white/90 transition-colors">Start Assessment →</a>
         </div>
       </div>
     </div>
@@ -604,7 +604,7 @@
         <div>
           <h4 class="font-semibold mb-4">Get in Touch</h4>
           <ul class="space-y-3 text-slate-400">
-            <li><a href="/cdn-cgi/l/email-protection#bfdcd0d1cbdedccbffddded6d1ddcdd6dbd8daded691ded6" class="hover:text-white transition-colors"><span class="__cf_email__" data-cfemail="40232f2e34212334002221292e22322924272521296e2129">[email&#160;protected]</span></a></li>
+            <li><a href="mailto:contact@bainbridgeai.ai" class="hover:text-white transition-colors">contact@bainbridgeai.ai</a></li>
             <li><a href="assessment.html" target="_blank" class="hover:text-white transition-colors">Get Your Free Assessment</a></li>
           </ul>
         </div>
@@ -628,27 +628,63 @@
       <span class="absolute top-0 right-0 w-4 h-4 bg-[#43d1ff] rounded-full border-2 border-white animate-pulse"></span>
     </button>
     
-    <div id="chat-window" class="hidden absolute bottom-20 right-0 w-96 bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
+    <div id="chat-window" class="hidden absolute bottom-20 right-0 w-80 bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
       <div class="p-4 gradient-bg text-white">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="font-semibold">How can we help?</div>
+            </div>
+          </div>
+          <button onclick="document.getElementById('chat-window').classList.add('hidden')" class="text-white/70 hover:text-white">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="p-4 space-y-3">
+        <a href="assessment.html" class="flex items-center gap-3 p-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition-colors group">
+          <div class="w-10 h-10 rounded-full bg-[#013e6a]/10 flex items-center justify-center group-hover:bg-[#013e6a]/20 transition-colors">
+            <svg class="w-5 h-5 text-[#013e6a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
             </svg>
           </div>
           <div>
-            <div class="font-semibold">Bainbridge AI</div>
-            <div class="text-xs text-white/70">Typically replies instantly</div>
+            <div class="font-semibold text-slate-800 text-sm">Take the Free Assessment</div>
+            <div class="text-xs text-slate-500">Find out where we can help</div>
           </div>
-        </div>
+        </a>
+        <a href="https://calendar.app.google/abniEgKe1rFuKKXy5" target="_blank" class="flex items-center gap-3 p-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition-colors group">
+          <div class="w-10 h-10 rounded-full bg-[#013e6a]/10 flex items-center justify-center group-hover:bg-[#013e6a]/20 transition-colors">
+            <svg class="w-5 h-5 text-[#013e6a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="font-semibold text-slate-800 text-sm">Book a Call</div>
+            <div class="text-xs text-slate-500">Talk to us directly</div>
+          </div>
+        </a>
+        <a href="mailto:contact@bainbridgeai.ai" class="flex items-center gap-3 p-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition-colors group">
+          <div class="w-10 h-10 rounded-full bg-[#013e6a]/10 flex items-center justify-center group-hover:bg-[#013e6a]/20 transition-colors">
+            <svg class="w-5 h-5 text-[#013e6a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="font-semibold text-slate-800 text-sm">Send an Email</div>
+            <div class="text-xs text-slate-500">contact@bainbridgeai.ai</div>
+          </div>
+        </a>
       </div>
-      <div class="h-64 p-4 bg-slate-50">
-        <div class="bg-white text-slate-700 px-4 py-3 rounded-2xl rounded-bl-md shadow-sm border border-slate-100 max-w-[80%]">
-          Hi! I'm the Bainbridge AI assistant. How can I help you today?
-        </div>
-      </div>
-      <div class="p-4 border-t border-slate-100 bg-white flex gap-2">
-        <input type="text" placeholder="Type your message..." class="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#43d1ff] text-sm">
-        <button class="px-4 py-2.5 rounded-xl text-white bg-[#013e6a]">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round
+    </div>
+  </div>
+
+</body>
+</html>
