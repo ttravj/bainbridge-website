@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Assessment | Bainbridge AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+    
+    .gradient-bg { background: linear-gradient(135deg, #013e6a 0%, #01186a 100%); }
+    
+    /* Chat container */
+    .chat-container {
+      height: calc(100vh - 160px);
+      max-height: 700px;
+    }
+    
+    /* Message bubbles */
+    .message-ai {
+      background: #013e6a;
+      color: white;
+      border-radius: 1rem 1rem 1rem 0.25rem;
+    }
+    
+    .message-user {
+      background: white;
+      color: #1e293b;
+      border-radius: 1rem 1rem 0.25rem 1rem;
+      border: 1px solid #e2e8f0;
+    }
+    
+    /* Typing indicator */
+    .typing-dot {
+      width: 8px;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 50%;
+      animation: typing 1.4s infinite ease-in-out;
+    }
+    
+    .typing-dot:nth-child(1) { animation-delay: 0s; }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    
+    @keyframes typing {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.7; }
+      30% { transform: translateY(-4px); opacity: 1; }
+    }
+    
+    /* Scroll styling */
+    .messages-container::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    .messages-container::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 3px;
+    }
+    
+    .messages-container::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 3px;
+    }
+    
+    .messages-container::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-white border-b border-slate-200 px-6 py-4">
+    <div class="max-w-4xl mx-auto flex items-center justify-between">
+      <!-- Left: Back link + Logo -->
+      <div class="flex items-center gap-6">
+        <a href="/" class="text-slate-400 hover:text-slate-600 text-sm flex items-center gap-1 transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+          Back to website
+        </a>
+        <span class="text-xl font-bold text-[#013e6a]">Bainbridge AI</span>
+      </div>
+      
+      <!-- Right: Trust badge -->
+      <div class="flex items-center gap-2 text-slate-500 text-sm">
+        <svg class="w-5 h-5 text-[#013e6a]" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <path fill="white" d="M9 12l2 2 4-4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Confidential and secure</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Chat Area -->
+  <main class="flex-1 flex items-center justify-center p-6">
+    <div class="w-full max-w-2xl bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden chat-container flex flex-col">
+      
+      <!-- Messages Container -->
+      <div id="messages" class="flex-1 overflow-y-auto p-6 space-y-4 messages-container">
+        <!-- Messages will be inserted here by JavaScript -->
+      </div>
+      
+      <!-- Typing Indicator (hidden by default) -->
+      <div id="typing-indicator" class="hidden px-6 pb-4">
+        <div class="message-ai inline-flex items-center gap-2 px-4 py-3 max-w-[80%]">
+          <div class="flex gap-1">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Input Area -->
+      <div class="border-t border-slate-200 p-4 bg-slate-50">
+        <form id="chat-form" class="flex gap-3">
+          <input 
+            type="text" 
+            id="user-input" 
+            placeholder="Type your message..." 
+            class="flex-1 px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#013e6a] focus:border-transparent text-slate-700 placeholder-slate-400"
+            autocomplete="off"
+          >
+          <button 
+            type="submit" 
+            id="send-button"
+            class="px-4 py-3 rounded-xl bg-[#013e6a] text-white hover:bg-[#01186a] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+            </svg>
+          </button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="py-4 text-center text-slate-400 text-sm">
+    © 2026 Bainbridge AI
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    const BOOKING_LINK = 'https://calendar.app.google/abniEgKe1rFuKKXy5';
+    
+    // DOM Elements
+    const messagesContainer = document.getElementById('messages');
+    const typingIndicator = document.getElementById('typing-indicator');
+    const chatForm = document.getElementById('chat-form');
+    const userInput = document.getElementById('user-input');
+    const sendButton = document.getElementById('send-button');
+    
+    // Conversation state
+    let conversationHistory = [];
+    let isProcessing = false;
+    
+    // Opening message
+    const openingMessage = `Hey there! Welcome to the Bainbridge AI discovery process.
+
+Here's how this works: I'm going to ask you some questions about your business. How things run, what tools you use, and where things feel harder than they should be. No sensitive data needed. Just the high-level stuff. Your data stays yours, always.
+
+Once we're done, our team will review everything and build you a custom assessment and proposal within 48 hours. Not a generic template. Something built specifically for your situation.
+
+This usually takes about 10-15 minutes. If you'd rather just talk to a human, you can always <a href="${BOOKING_LINK}" target="_blank" class="underline hover:text-white/80">book a call instead</a>.
+
+Let's start with the basics: What does your business do, and what's your role there?`;
+    
+    // Initialize chat with opening message
+    function initializeChat() {
+      addMessage(openingMessage, 'ai');
+    }
+    
+    // Add message to the chat
+    function addMessage(content, role) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `flex ${role === 'user' ? 'justify-end' : 'justify-start'}`;
+      
+      const bubble = document.createElement('div');
+      bubble.className = `${role === 'user' ? 'message-user' : 'message-ai'} px-4 py-3 max-w-[80%] whitespace-pre-wrap`;
+      bubble.innerHTML = content;
+      
+      messageDiv.appendChild(bubble);
+      messagesContainer.appendChild(messageDiv);
+      
+      // Scroll to bottom
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+    
+    // Show/hide typing indicator
+    function setTyping(show) {
+      typingIndicator.classList.toggle('hidden', !show);
+      if (show) {
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      }
+    }
+    
+    // Enable/disable input
+    function setInputEnabled(enabled) {
+      userInput.disabled = !enabled;
+      sendButton.disabled = !enabled;
+      isProcessing = !enabled;
+    }
+    
+    // Send message to API
+    async function sendMessage(userMessage) {
+      // Add user message to history
+      conversationHistory.push({
+        role: 'user',
+        content: userMessage
+      });
+      
+      // Add user message to chat
+      addMessage(userMessage, 'user');
+      
+      // Clear input and disable
+      userInput.value = '';
+      setInputEnabled(false);
+      setTyping(true);
+      
+      try {
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            messages: conversationHistory
+          })
+        });
+        
+        if (!response.ok) {
+          throw new Error('Failed to get response');
+        }
+        
+        const data = await response.json();
+        
+        // Add assistant message to history
+        conversationHistory.push({
+          role: 'assistant',
+          content: data.message
+        });
+        
+        // Add assistant message to chat
+        setTyping(false);
+        addMessage(data.message, 'ai');
+        
+        // Check if interview is complete
+        if (data.complete) {
+          await handleInterviewComplete(data);
+        }
+        
+      } catch (error) {
+        console.error('Error:', error);
+        setTyping(false);
+        addMessage('I apologize, but I encountered an error. Please try again or <a href="' + BOOKING_LINK + '" target="_blank" class="underline">book a call</a> to speak with us directly.', 'ai');
+      } finally {
+        setInputEnabled(true);
+        userInput.focus();
+      }
+    }
+    
+    // Handle interview completion - send ALL extracted data
+    async function handleInterviewComplete(data) {
+      try {
+        await fetch('/api/complete', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            conversationHistory: conversationHistory,
+            prospectName: data.prospectName,
+            prospectEmail: data.prospectEmail,
+            businessName: data.businessName,
+            industry: data.industry,
+            teamSize: data.teamSize,
+            painPoints: data.painPoints,
+            currentTools: data.currentTools,
+            decisionMaker: data.decisionMaker,
+            urgency: data.urgency,
+            trigger: data.trigger,
+            recap: data.recap
+          })
+        });
+      } catch (error) {
+        console.error('Error completing interview:', error);
+      }
+    }
+    
+    // Form submit handler
+    chatForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const message = userInput.value.trim();
+      if (message && !isProcessing) {
+        sendMessage(message);
+      }
+    });
+    
+    // Initialize on load
+    document.addEventListener('DOMContentLoaded', initializeChat);
+  </script>
+
+</body>
+</html>
