@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log In | Bainbridge AI</title>
+  <meta name="description" content="Log in to your Bainbridge AI client portal to access your systems, documentation, and support.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+    .gradient-bg { background: linear-gradient(135deg, #013e6a 0%, #01186a 100%); }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-50">
+
+  <!-- Simple Nav -->
+  <nav class="bg-white shadow-sm">
+    <div class="max-w-7xl mx-auto px-6 py-4">
+      <a href="index.html" class="flex items-center gap-2">
+        <img src="/logo.jpg" alt="Bainbridge AI" style="height: 40px;">
+      </a>
+    </div>
+  </nav>
+
+  <!-- Login Section -->
+  <main class="flex items-center justify-center min-h-[calc(100vh-80px)] px-6">
+    <div class="w-full max-w-md">
+      
+      <!-- Card -->
+      <div class="bg-white rounded-2xl shadow-xl p-8 text-center">
+        
+        <!-- Icon -->
+        <div class="w-16 h-16 mx-auto mb-6 rounded-full gradient-bg flex items-center justify-center">
+          <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+          </svg>
+        </div>
+
+        <!-- Heading -->
+        <h1 class="text-2xl font-bold text-slate-800 mb-2">Client Portal</h1>
+        <p class="text-slate-500 mb-8">Coming Soon</p>
+
+        <!-- Message -->
+        <div class="bg-slate-50 rounded-xl p-6 mb-8 text-left">
+          <p class="text-slate-600 text-sm leading-relaxed">
+            We're building a dedicated client portal where you'll be able to access your documentation, track project progress, and connect with our team.
+          </p>
+        </div>
+
+        <!-- Current Client? -->
+        <div class="border-t border-slate-100 pt-6">
+          <p class="text-sm text-slate-500 mb-4">Already a client?</p>
+          <a href="mailto:travis@bainbridgeai.ai" class="inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-white gradient-bg hover:opacity-90 transition-opacity">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            Contact Support
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Back Link -->
+      <div class="text-center mt-6">
+        <a href="index.html" class="text-sm text-slate-500 hover:text-[#013e6a] transition-colors">
+          ← Back to Homepage
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+</body>
+</html>
